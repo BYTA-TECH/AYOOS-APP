@@ -1,0 +1,21 @@
+export var DOCTORS = [
+    { imageUrl: 'https://via.placeholder.com/300*300', name: 'Dr.Rafeek', amount: '10$', ratings: 3.5, specialization: 'Ortho', yearsOfExperience: 8 },
+    { imageUrl: 'https://via.placeholder.com/300*300', name: 'Dr.Maya', amount: '10$', ratings: 4.5, specialization: 'Pediatric', yearsOfExperience: 8 },
+    { imageUrl: 'https://via.placeholder.com/300*300', name: 'Dr.Ajith', amount: '10$', ratings: 3, specialization: 'Gyno', yearsOfExperience: 8 },
+    { imageUrl: 'https://via.placeholder.com/300*300', name: 'Dr.Abilash', amount: '10$', ratings: 4, specialization: 'Cardiac', yearsOfExperience: 8 },
+    { imageUrl: 'https://via.placeholder.com/300*300', name: 'Dr.Sruthy', amount: '10$', ratings: 4, specialization: 'General', yearsOfExperience: 8 },
+    { imageUrl: 'https://via.placeholder.com/300*300', name: 'Dr.Shamra', amount: '10$', ratings: 4, specialization: 'Gastrology', yearsOfExperience: 8 },
+    { imageUrl: 'https://via.placeholder.com/300*300', name: 'Dr.Ruhail', amount: '10$', ratings: 4, specialization: 'Nuerologist', yearsOfExperience: 8 },
+    { imageUrl: 'https://via.placeholder.com/300*300', name: 'Dr.Sahal', amount: '10$', ratings: 4, specialization: 'Psychatrist', yearsOfExperience: 8 },
+    { imageUrl: 'https://via.placeholder.com/300*300', name: 'Dr.Sanal', amount: '10$', ratings: 4, specialization: 'Psychologist', yearsOfExperience: 8 },
+    { imageUrl: 'https://via.placeholder.com/300*300', name: 'Dr.Sooraj', amount: '10$', ratings: 4, specialization: 'General', yearsOfExperience: 8 },
+    { imageUrl: 'https://via.placeholder.com/300*300', name: 'Dr.Sarangi', amount: '10$', ratings: 4, specialization: 'General', yearsOfExperience: 8 },
+    { imageUrl: 'https://via.placeholder.com/300*300', name: 'Dr.Neeraja', amount: '10$', ratings: 4, specialization: 'General', yearsOfExperience: 8 },
+    { imageUrl: 'https://via.placeholder.com/300*300', name: 'Dr.Ansal', amount: '10$', ratings: 4, specialization: 'General', yearsOfExperience: 8 },
+    { imageUrl: 'https://via.placeholder.com/300*300', name: 'Dr.Rahul', amount: '10$', ratings: 4, specialization: 'General', yearsOfExperience: 8 },
+    { imageUrl: 'https://via.placeholder.com/300*300', name: 'Dr.Anjali', amount: '10$', ratings: 4, specialization: 'General', yearsOfExperience: 8 },
+    { imageUrl: 'https://via.placeholder.com/300*300', name: 'Dr.Ranjith', amount: '10$', ratings: 4, specialization: 'General', yearsOfExperience: 8 },
+    { imageUrl: 'https://via.placeholder.com/300*300', name: 'Dr.Vineeth', amount: '10$', ratings: 4, specialization: 'General', yearsOfExperience: 8 },
+    { imageUrl: 'https://via.placeholder.com/300*300', name: 'Dr.Akhil;', amount: '10$', ratings: 4, specialization: 'General', yearsOfExperience: 8 },
+];
+//# sourceMappingURL=mock-doctors.js.map

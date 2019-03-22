@@ -5,6 +5,8 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
+import { PopoverComponent } from '../popover/popover.component';
+import { FullTextSearchPage } from '../full-text-search/full-text-search.page';
 
 @NgModule({
   imports: [
@@ -18,6 +20,8 @@ import { HomePage } from './home.page';
       }
     ])
   ],
-  declarations: [HomePage]
+  declarations: [HomePage,FullTextSearchPage],
+  entryComponents: [FullTextSearchPage],
+
 })
 export class HomePageModule {}

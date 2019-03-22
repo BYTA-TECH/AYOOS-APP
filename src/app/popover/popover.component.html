@@ -1,0 +1,8 @@
+
+<ion-list *ngIf="topDoctors">
+  <ion-item button *ngFor="let doctor of topDoctors" lines="none">
+    <ion-label text-wrap text-center>
+     {{doctor}}
+    </ion-label>
+  </ion-item>
+  </ion-list>

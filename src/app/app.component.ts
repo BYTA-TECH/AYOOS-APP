@@ -16,10 +16,48 @@ export class AppComponent {
       icon: 'home'
     },
     {
-      title: 'List',
-      url: '/list',
-      icon: 'list'
+      title: 'My Appointments',
+      url: '/my-appointments',
+      icon: 'calendar'
+    },
+    {
+      title: 'Medical Records',
+      url: '/medical-records',
+      icon: 'filing'
+    },
+    {
+      title: 'Consultations',
+      url: '/consultations',
+      icon: 'pulse'
+    },
+    {
+      title: 'Reminders',
+      url: '/reminders',
+      icon: 'alarm'
+    },
+    {
+      title: 'Payments',
+      url: '/payments',
+      icon: 'cash'
+    },
+    {
+      title: 'Settings',
+      url: '/settings',
+      icon: 'settings'
+    },
+    {
+      title: 'Help Center',
+      url: '/help-center',
+      icon: 'help'
+    },
+    {
+      title: 'About Us',
+      url: '/about-us',
+      icon: 'business'
     }
+    
+
+
   ];
 
   constructor(

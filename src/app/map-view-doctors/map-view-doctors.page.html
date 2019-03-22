@@ -1,0 +1,18 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-title><strong> Nearby Doctors</strong></ion-title>
+     <ion-button slot="end" size="small" (click)="dismissMe()">Close</ion-button>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content padding>
+    
+  <ion-item (click)="routeToGridView()">
+    <ion-icon name="grid" slot="end"></ion-icon>
+  </ion-item>
+    <agm-map [latitude]="10.765752" [longitude]="76.483843">
+         <agm-marker *ngFor="let doctor of doctors" [latitude]="doctor.lat" [longitude]="doctor.lon"   
+         (markerClick)="routeToDoctor(doctor.id)" ></agm-marker>
+      </agm-map>
+    
+</ion-content>

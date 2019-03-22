@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title><strong>Appointment Details</strong></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-item lines="none">
+        <ion-icon name="timer"></ion-icon>
+        <countdown-timer [end]="selectedAppointment.date"></countdown-timer>
+        <ion-label slot="start">
+          {{selectedAppointment.date.getDate()}}-{{selectedAppointment.date.getMonth()}}-{{selectedAppointment.date.getUTCFullYear()}}
+        </ion-label>
+      </ion-item>
+      <ion-card-title text-center>{{selectedAppointment.doctor.name}}</ion-card-title>
+      <ion-card-subtitle text-center>{{selectedAppointment.doctor.specialization}} -
+        {{selectedAppointment.doctor.yearsOfExperience}} Years Of Exp</ion-card-subtitle>
+      <ion-card-subtitle text-center>Astermedicity - {{selectedAppointment.doctor.distance.toFixed()}} Kms Away </ion-card-subtitle>
+    </ion-card-header>
+    <ion-img src="assets/doctor3.png" class="img"></ion-img>
+
+    <ion-card-content>
+      <ion-item lines="none">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <ion-icon name="star" *ngFor="let index of genArray(selectedAppointment.doctor.ratings)"></ion-icon>
+        <ion-icon name="star-half" *ngIf="selectedAppointment.doctor.ratings % 1 !=0"></ion-icon>
+        &nbsp;&nbsp;<ion-badge>{{selectedAppointment.doctor.ratings}}</ion-badge>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label class="small-font">{{selectedAppointment.dateOfAppointment.getDate()}} -
+          {{selectedAppointment.dateOfAppointment.getMonth()}} - {{selectedAppointment.dateOfAppointment.getFullYear()}}
+          {{selectedAppointment.dateOfAppointment.getHours()}}:{{selectedAppointment.dateOfAppointment.getMinutes()}}
+        </ion-label>
+        <ion-badge color="primary" *ngIf="selectedAppointment.status=='approved'">{{selectedAppointment.status}}
+        </ion-badge>
+        <ion-badge color="danger" *ngIf="selectedAppointment.status=='unapproved'">{{selectedAppointment.status}}
+        </ion-badge>
+        <ion-badge color="success" *ngIf="selectedAppointment.status=='completed'">{{selectedAppointment.status}}
+        </ion-badge>
+        <ion-badge color="secondary" *ngIf="selectedAppointment.status=='cancelled'">{{selectedAppointment.status}}
+        </ion-badge>
+      </ion-item>
+
+      <ion-item lines="none">
+
+        <ion-list lines="none">
+          <ion-item>
+            <ion-chip color="success" *ngFor="let symptom of selectedAppointment.symptoms">
+              <ion-label class="small-font">{{symptom}}</ion-label>
+            </ion-chip>
+          </ion-item>
+        </ion-list>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-button slot="start">Reschedule</ion-button>
+        <ion-button slot="end">Cancel</ion-button>
+      </ion-item>
+
+
+      <!-- <ion-progress-bar color="primary" value="0.5"></ion-progress-bar> -->
+
+
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

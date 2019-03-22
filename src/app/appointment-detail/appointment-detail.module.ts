@@ -1,0 +1,28 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Routes, RouterModule } from '@angular/router';
+
+import { IonicModule } from '@ionic/angular';
+import { CountdownTimerModule } from 'ngx-countdown-timer';
+
+import { AppointmentDetailPage } from './appointment-detail.page';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: AppointmentDetailPage
+  }
+];
+
+@NgModule({
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    RouterModule.forChild(routes),
+    CountdownTimerModule.forRoot()
+  ],
+  declarations: [AppointmentDetailPage]
+})
+export class AppointmentDetailPageModule {}

@@ -1,0 +1,31 @@
+import { FilterModalComponent } from './../filter-modal/filter-modal.component';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Routes, RouterModule } from '@angular/router';
+
+
+import { IonicModule } from '@ionic/angular';
+
+import { LocationSearchPage } from './location-search.page';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: LocationSearchPage
+  }
+];
+
+@NgModule({
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    RouterModule.forChild(routes)
+    
+  ],
+  declarations: [LocationSearchPage],
+  entryComponents:[],
+  providers:[]
+})
+export class LocationSearchPageModule {}
