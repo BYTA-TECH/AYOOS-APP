@@ -44,25 +44,7 @@ constructor(private popoverController: PopoverController,private modalController
   // }
 
  
-  // async presentPopover(ev:any) {
-  //   console.log("Inside popovercontroller "+this.searchTerm)
-  //   this.searchChanged();
-  //   const popover = await this.popoverController.create({
-  //     component: PopoverComponent,
-  //     event: ev,
-  //     animated:true,
-  //     translucent:true,
-  //     cssClass: ['custom-popover'],
-  //     backdropDismiss:true,
-  //     showBackdrop: true
-  //   });
-  //   if(this.searchTerm!=''){
-  //     console.log("Popoover is about to work")
-  //   return await popover.present();
-  //   }
-  // }
-
-
+  // 
   searchChanged(){
 
   }

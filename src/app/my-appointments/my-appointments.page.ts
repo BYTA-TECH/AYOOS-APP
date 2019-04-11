@@ -4,6 +4,7 @@ import {APPOINTMENTS} from '../mock-appointments';
 import { LocationService } from '../services/location-service.service';
 import { MapsAPILoader } from '@agm/core';
 import {Geolocation} from '@ionic-native/geolocation/ngx';
+import { Router } from '@angular/router';
  declare var google:any;
 @Component({
   selector: 'app-my-appointments',
@@ -12,7 +13,7 @@ import {Geolocation} from '@ionic-native/geolocation/ngx';
 })
 export class MyAppointmentsPage implements OnInit {
 
-  constructor(private locationService:LocationService,private mapsLoader:MapsAPILoader,private geolocation:Geolocation) {
+  constructor(private locationService:LocationService,private mapsLoader:MapsAPILoader,private geolocation:Geolocation,private router:Router) {
    
    }
 
@@ -22,7 +23,9 @@ export class MyAppointmentsPage implements OnInit {
   segment:string="Today";
   appointmentsSegment:Appointment[]=[];
  
-  
+  routeToDetailView(id:number){
+    this.router.navigate(['/','appointment-detail',id]);
+  }
 
   doRefresh(event:any) {
     console.log('Begin async operation');

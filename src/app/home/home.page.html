@@ -6,7 +6,7 @@
     <ion-buttons slot="end" [routerLink]="['/','notifications']">
         <ion-icon name="notifications"  class="larger-bookmark" margin-bottom></ion-icon>
     </ion-buttons>
-    <ion-searchbar placeholder="Search for your health ..." [(ngModel)]="searchTerm" (click)="presentFullTextSearch()" margin-top></ion-searchbar>
+    <ion-searchbar placeholder="Search for your health ..." class="border-style" [(ngModel)]="searchTerm" (click)="presentFullTextSearch()" margin-top></ion-searchbar>
     <!-- <app-popover [term]="searchTerm" class="hide-element" ></app-popover> -->
     
   </ion-toolbar>
@@ -39,7 +39,8 @@
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
-    <ion-buttons [routerLink]="['/','location-search']" padding>
+    
+    <ion-buttons [routerLink]="['/','location-search']" padding *ngIf="currentLocation" >
       <ion-icon name="arrow-dropdown" class="larger-locate" ></ion-icon>
     {{currentLocation}}
   </ion-buttons>
@@ -48,7 +49,7 @@
   <ion-slides pager="true" >
     <ion-slide >
         <ion-card class="welcome-card">
-            <ion-img src="/assets/health3.jpg"></ion-img>
+            <ion-img src="/assets/health2.jpg"></ion-img>
           </ion-card>
     </ion-slide>
     <ion-slide >

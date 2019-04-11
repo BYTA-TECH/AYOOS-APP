@@ -25,7 +25,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <div *ngIf="appointmentsSegment">
-    <ion-row *ngFor="let appointment of appointmentsSegment" [routerLink]="['/','appointment-detail',appointment.id]">
+    <ion-row *ngFor="let appointment of appointmentsSegment" (click)="routeToDetailView(appointment.id)" >
       <ion-col>
         <ion-card>
           <ion-item>

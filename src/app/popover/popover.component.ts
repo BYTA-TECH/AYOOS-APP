@@ -1,6 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { templateRefExtractor } from '@angular/core/src/render3';
 import { interval } from 'rxjs';
+import { PopoverController, ToastController } from '@ionic/angular';
+import { Doctor } from '../doctor';
+import { DOCTORS } from '../mock-doctors';
+import { getHeapStatistics } from 'v8';
 
 
 @Component({
@@ -11,30 +15,45 @@ import { interval } from 'rxjs';
 export class PopoverComponent implements OnInit {
 
 
+
+  mail: string;
+  popType: string;
+  searchTerm: string;
+  searchDoctors: Doctor[] = [];
+
  
-  @Input() term:string;
-  topDoctors: string[];
-  
-  
-   assignValues(){
-    
-    console.log("In the async method popover ")
-    this.topDoctors=[
-      this.term,
-      this.term
-    ]
-  }
-  constructor() { 
-     console.log("Term is "+this.term);
-    //  interval(1000 * 1).subscribe(x => {
-    //   this.assignValues();
-    //   console.log("Inside interval  "+this.term);
 
-    //  });
+
+  onSearch() {
+    this.searchDoctors = [];
+    DOCTORS.forEach(doctor => {
+      if (doctor.name.toLowerCase().includes(this.searchTerm.toLowerCase())) {
+        this.searchDoctors.push(doctor);
+      }
+    })
+  }
+  constructor(private popoverController: PopoverController, private toastController: ToastController) {
+
   }
 
+  shareRecordViaMail() {
+    console.log("Mail successfully send to " + this.mail);
+    this.presentToast();
+  }
+  shareRecordToDoctor(doctor: Doctor) {
+    console.log("shared record to Doctor  " + doctor);
+    this.presentToast();
+  }
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'You have successfully shared record',
+      duration: 2000
+    });
+    this.popoverController.dismiss();
+    toast.present();
 
+  }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
 }

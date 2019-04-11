@@ -1,8 +1,32 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title text-center>Share Record</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-<ion-list *ngIf="topDoctors">
-  <ion-item button *ngFor="let doctor of topDoctors" lines="none">
-    <ion-label text-wrap text-center>
-     {{doctor}}
-    </ion-label>
-  </ion-item>
-  </ion-list>
+<ion-content>
+  <div *ngIf="popType=='mailShare'">
+    <ion-item>
+      <ion-icon name="mail" slot="start"></ion-icon>
+      <ion-input type="email" placeholder="Enter the receipients mail.."[(ngModel)]="mail"></ion-input>
+      <ion-buttons slot="end" slot="end" (click)="shareRecordViaMail()">
+        <ion-icon name="send"></ion-icon>
+      </ion-buttons>
+    </ion-item>
+  </div>
+  <div *ngIf="popType=='doctorShare'">
+    <ion-item>
+      <ion-icon name="search" slot="start"></ion-icon>
+      <ion-input [(ngModel)]="searchTerm" placeholder="Search doctors..."
+        (ionChange)="onSearch()" clearInput></ion-input>
+    </ion-item>
+    <ion-list *ngFor="let doctor of searchDoctors">
+      <ion-item (click)="shareRecordToDoctor(doctor)">
+        <ion-avatar>
+          <ion-img src="assets/doctor1.png"></ion-img>
+        </ion-avatar>
+        <ion-label>{{doctor.name}} - {{doctor.specialization}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

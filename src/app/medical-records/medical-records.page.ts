@@ -1,6 +1,9 @@
 import { ModalController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import {UploadRecordModalComponent} from '../upload-record-modal/upload-record-modal.component';
+import { MedicalHistory } from '../MedicalHistory';
+import { MEDICALRECORDS } from '../mock-medical-records';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-medical-records',
@@ -9,14 +12,16 @@ import {UploadRecordModalComponent} from '../upload-record-modal/upload-record-m
 })
 export class MedicalRecordsPage implements OnInit {
 
-  constructor(private modalController:ModalController) { }
+  constructor(private modalController:ModalController,private router:Router) { }
 
   ngOnInit() {
+    this.medicalHistories=MEDICALRECORDS;
   }
+
+  medicalHistories:MedicalHistory[];
   segment="all";
   searchTerm:string;
   searchChanged(){
-
   }
   onSelectAyoosHR(){
     this.segment="ayoosHR";
@@ -27,10 +32,13 @@ export class MedicalRecordsPage implements OnInit {
   onSelectAll(){
     this.segment="all";
   }
+
+  routeToDetailView(ref:string){
+    this.router.navigate(['/','medical-record-detail',ref]);
+  }
   async presentModal() {
     const modal = await this.modalController.create({
       component: UploadRecordModalComponent,
-      //componentProps: { value: 123 }
     });
     return await modal.present();
   }

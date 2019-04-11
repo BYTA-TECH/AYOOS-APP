@@ -1,25 +1,66 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-
+    <ion-title text-center><strong>Medical History</strong></ion-title>
   </ion-toolbar>
 
 </ion-header>
 
 <ion-content padding>
 
-  <div class="timeline">
-    <div class="container left">
+  <div class="timeline" *ngFor="let medicalRecord of medicalRecords">
+    <div class="container left"><br>
+      <ion-badge color="secondary"><strong>{{weekDays[medicalRecord.date.getDay()]}}
+          {{medicalRecord.date.getMonth()}} {{medicalRecord.date.getFullYear()}}</strong></ion-badge>
       <ion-card>
+        <ion-badge>{{medicalRecord.disease.toUpperCase()}}</ion-badge>
+        <ion-card-header>
+          <ul class="progress-indicator">
+            <li class="completed"> <span class="bubble"></span>Boooking<br>{{medicalRecord.dateBooked.getDate()}}-{{medicalRecord.dateBooked.getMonth()}}-{{medicalRecord.dateBooked.getFullYear()}}</li>
+            <li class="completed"> <span class="bubble"></span>Consultation<br>{{medicalRecord.date.getDate()}}-{{medicalRecord.date.getMonth()}}-{{medicalRecord.date.getFullYear()}}</li>
+            <li class="completed"> <span class="bubble"></span>Report<br>{{medicalRecord.dateReportReview.getDate()}}-{{medicalRecord.dateReportReview.getMonth()}}-{{medicalRecord.dateReportReview.getFullYear()}}</li>
+          </ul>
+        </ion-card-header>
         <ion-card-content>
-          <div class="content">
-            <h2>2017</h2>
-            <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim
-              fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea
-              eam.</p>
-          </div>
+          <ion-img src="assets/doctor3.png" class="img"></ion-img>
+          <ion-card-title text-center><strong>
+              {{medicalRecord.doctor.name}}
+            </strong>
+          </ion-card-title>
+          <ion-card-subtitle text-center>
+            {{medicalRecord.doctor.specialization}} -
+            {{medicalRecord.doctor.yearsOfExperience}} Yrs Exp
+          </ion-card-subtitle>
+          <ion-item lines="none">
+            <ion-button *ngFor="let attachment of medicalRecord.attachments">
+              <ion-label>{{attachment.type}}</ion-label>
+              <ion-icon name="open" slot="end"></ion-icon>
+            </ion-button>
+          </ion-item>
+
+          <ion-fab vertical="center" horizontal="end" slot="fixed">
+            <ion-fab-button>
+              <ion-icon name="share"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-list side="top">
+              <ion-fab-button (click)="presentMailPopover()"><ion-icon
+                  name="mail"></ion-icon></ion-fab-button>
+            </ion-fab-list>
+            <ion-fab-list side="start">
+              <ion-fab-button (click)="presentDoctorChoose()"><ion-icon
+                  name="people"></ion-icon></ion-fab-button>
+            </ion-fab-list>
+            <ion-fab-list side="end">
+              <ion-fab-button (click)="presentWhatsappPopover()"><ion-icon
+                  name="logo-whatsapp"></ion-icon></ion-fab-button>
+            </ion-fab-list>
+            <ion-fab-list side="bottom">
+              <ion-fab-button (click)="presentFacebookPopover()"><ion-icon
+                  name="logo-facebook"></ion-icon></ion-fab-button>
+            </ion-fab-list>
+          </ion-fab>
         </ion-card-content>
       </ion-card>
     </div>
