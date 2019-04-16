@@ -11,7 +11,7 @@ export const authConfig: AuthConfig = {
   redirectUri: window.location.origin,
   clientId: 'account',
   scope: 'openid profile email voucher offline_access',
-  dummyClientSecret: '9717822c-8d73-46ef-b2b9-53012c6d3277',
+  dummyClientSecret: '563ff26b-adae-4242-bb4b-ac530db40a2f',
   tokenEndpoint: 'http://35.237.193.86:8080/auth/realms/ayoos/protocol/openid-connect/token',
   userinfoEndpoint: 'http://35.237.193.86:8080/auth/realms/ayoos/protocol/openid-connect/userinfo',
   oidc:false,
