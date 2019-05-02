@@ -25,12 +25,7 @@ export class QualificationsListPage implements OnInit {
     .subscribe(result => {
       console.log(result);
       this.qualifications = result;
-    })
+    });
   }
-
-  getQualificationViaSearch(
-  }
-
-
 
 }
