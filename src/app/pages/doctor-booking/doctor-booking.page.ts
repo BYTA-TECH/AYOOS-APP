@@ -17,7 +17,7 @@ export class DoctorBookingPage implements OnInit {
   doctorId: string;
   keyCloakUser: any = {};
   doctor: Doctor;
-  slotsMorningSession: Slot[] = [];
+  slotsMorningSession: Slot[] =  [];
   slotsAfternoonSession: Slot[] = [];
   slotsEveningSession: Slot[] = [];
   kcAdminClient: KeycloakAdminClient;
@@ -35,6 +35,20 @@ export class DoctorBookingPage implements OnInit {
   ngOnInit() {
     this.doctorId = this.activateRoute.snapshot.paramMap.get('id');
     this.configureKeycloakAdmin();
+    let index = 1;
+    SLOTS.forEach(slot => {
+      if (index <= 9) {
+        this.slotsMorningSession.push(slot);
+      }
+      if (index <= 18 && index > 9) {
+       this.slotsAfternoonSession.push(slot);
+     }
+     if (index <= 27 && index > 18) {
+       this.slotsEveningSession.push(slot);
+     }
+     index++;
+    });
+
   }
 
 
@@ -58,7 +72,7 @@ export class DoctorBookingPage implements OnInit {
     })
     .catch(data => {
       console.log('Got User From Keycloak' , data);
-   
+
     });
     this.queryResourceService.findDoctorUsingGET(this.doctorId)
     .subscribe(result => {

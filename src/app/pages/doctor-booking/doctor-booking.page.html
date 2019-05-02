@@ -8,7 +8,12 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-img src="assets/doctor1.png" class="img"></ion-img><br>
+  <img [src]="'data:' +  doctor
+. imageContentType
++ ';base64,' + doctor
+. image
+"> 
+
   <div class="center">
     <strong><ion-label>{{keyCloakUser.firstName  + ' '}}
       <p *ngIf="keyCloakUser.lastName">{{keyCloakUser.lastName}}</p>

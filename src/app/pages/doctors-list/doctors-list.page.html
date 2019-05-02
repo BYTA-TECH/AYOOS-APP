@@ -31,8 +31,11 @@
               <ion-card>
                 <ion-card-content>
                  <ion-icon name="bookmark" slot="end"></ion-icon>
-                  <img [src]="'data:image/' +  doctor
-                  . imageContentType + ';base64,' + doctor.image" class="img-info" padding/>
+                 <img [src]="'data:' +  doctor
+                 . imageContentType
+                 + ';base64,' + doctor
+                 . image
+                 "> 
                 <ion-card-subtitle text-center *ngFor="let qualification of doctor.qualifications">
                     <ion-badge>{{qualification}}</ion-badge>
                 </ion-card-subtitle>
