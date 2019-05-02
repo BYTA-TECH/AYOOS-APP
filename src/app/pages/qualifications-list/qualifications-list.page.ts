@@ -28,8 +28,7 @@ export class QualificationsListPage implements OnInit {
     })
   }
 
-  getQualificationViaSearch() {
-    this.queryResourceService.
+  getQualificationViaSearch(
   }
 
 
