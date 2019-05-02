@@ -1,4 +1,3 @@
-import { FindAllDoctorsUsingGETParams } from './../../api/services/query-resource.service';
 import { QueryResourceService } from 'src/app/api/services';
 import { Component, OnInit } from '@angular/core';
 
