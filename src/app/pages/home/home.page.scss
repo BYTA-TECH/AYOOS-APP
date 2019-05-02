@@ -1,0 +1,68 @@
+.welcome-card ion-img {
+  max-height: 25vh;
+  overflow: hidden;
+}
+
+.border-style{
+  border-radius: 10%;
+}
+ion-card{
+  display: flex;
+  flex-direction: column;
+  width: 100% !important;
+ 
+}
+.hide-element{
+  display: none !important;
+}
+
+.card-avatar{
+  // width:100% !important;
+  // height : 100% !important;
+  margin: auto;
+}
+
+div{
+
+  text-align: left;
+  padding: 2vh;
+
+}
+.larger-bookmark{
+  font-size: 30px;
+}
+
+.larger-locate{
+  font-size: 20px;
+}
+.info-img{
+  height: 50vh;
+  width: 30vh;
+  object-fit: contain;
+  padding-right: 10px;
+}
+.top-doctors{
+  display: flex;
+    flex-direction: column;
+    width: 75% !important;
+    image-resolution: 35% !important;
+    max-height: 50%;
+    
+}
+.custom-popover .popover-content{
+  $popover-md-width : 500px;
+  margin-top: 500px !important;
+  display: none !important;
+
+}
+.search-result li {
+  border-bottom: 1px solid gray;
+  border-left: 1px solid gray;
+  border-right: 1px solid gray;
+  width: 195px;
+  height: 16px;
+  padding: 5px;
+  background-color: white;
+  cursor: pointer;
+  list-style-type: none;
+}

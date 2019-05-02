@@ -7,13 +7,13 @@ import { OAuthService, JwksValidationHandler, AuthConfig, NullValidationHandler 
 import { filter } from 'rxjs/operators';
 
 export const authConfig: AuthConfig = {
-  issuer: 'http://35.237.193.86:8080/auth/realms/ayoos',
+  issuer: 'http://35.237.193.86:8080/auth/realms/graeshoppe',
   redirectUri: window.location.origin,
   clientId: 'account',
-  scope: 'openid profile email voucher offline_access',
-  dummyClientSecret: '563ff26b-adae-4242-bb4b-ac530db40a2f',
-  tokenEndpoint: 'http://35.237.193.86:8080/auth/realms/ayoos/protocol/openid-connect/token',
-  userinfoEndpoint: 'http://35.237.193.86:8080/auth/realms/ayoos/protocol/openid-connect/userinfo',
+  scope: 'openid profile email',
+  dummyClientSecret: '9dc04b00-55f1-49b5-88fa-21b401e442dd',
+  tokenEndpoint: 'http://35.237.193.86:8080/auth/realms/graeshoppe/protocol/openid-connect/token',
+  userinfoEndpoint: 'http://35.237.193.86:8080/auth/realms/graeshoppe/protocol/openid-connect/userinfo',
   oidc:false,
   requireHttps:false
 
@@ -147,7 +147,7 @@ export class AppComponent {
 
     // Url of the Identity Provider
     this.oauthService.issuer =
-      'http://35.237.193.86:8080/auth/realms/ayoos';
+      'http://35.237.193.86:8080/auth/realms/graeshoppe';
 
     this.oauthService.tokenValidationHandler = new NullValidationHandler();
 
@@ -176,6 +176,6 @@ export class AppComponent {
     // the standard explicitly cites that the password flow can also be used without it. Using a client secret
     // does not make sense for a SPA that runs in the browser. That's why the property is called dummyClientSecret
     // Using such a dummy secreat is as safe as using no secret.
-    this.oauthService.dummyClientSecret = '9717822c-8d73-46ef-b2b9-53012c6d3277';
+    this.oauthService.dummyClientSecret = '9dc04b00-55f1-49b5-88fa-21b401e442dd';
   }
 }

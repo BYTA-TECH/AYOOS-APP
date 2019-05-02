@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, CanActivate } from '@angular/router';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { AuthGuardService } from './security/auth-guard.service';
 
@@ -11,141 +11,139 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: './home/home.module#HomePageModule'
+    loadChildren: './pages/home/home.module#HomePageModule'
   },
   {
     path: 'list',
-    loadChildren: './list/list.module#ListPageModule'
+    loadChildren: './pages/list/list.module#ListPageModule'
   },
   {
     path: 'my-appointments',
-    loadChildren: './my-appointments/my-appointments.module#MyAppointmentsPageModule',
+    loadChildren: './pages/my-appointments/my-appointments.module#MyAppointmentsPageModule',
     canActivate: [AuthGuardService]
 
   },
   {
     path: 'medical-records',
-    loadChildren: './medical-records/medical-records.module#MedicalRecordsPageModule',
+    loadChildren: './pages/medical-records/medical-records.module#MedicalRecordsPageModule',
     canActivate: [AuthGuardService]
 
   },
   {
     path: 'consultations',
-    loadChildren: './consultations/consultations.module#ConsultationsPageModule',
+    loadChildren: './pages/consultations/consultations.module#ConsultationsPageModule',
     canActivate: [AuthGuardService]
 
   },
   {
     path: 'reminders',
-    loadChildren: './reminders/reminders.module#RemindersPageModule',
+    loadChildren: './pages/reminders/reminders.module#RemindersPageModule',
     canActivate: [AuthGuardService]
 
   },
   {
     path: 'payments',
-    loadChildren: './payments/payments.module#PaymentsPageModule',
+    loadChildren: './pages/payments/payments.module#PaymentsPageModule',
     canActivate: [AuthGuardService]
 
   },
   {
     path: 'settings',
-    loadChildren: './settings/settings.module#SettingsPageModule',
+    loadChildren: './pages/settings/settings.module#SettingsPageModule',
     canActivate: [AuthGuardService]
 
   },
   {
     path: 'help-center',
-    loadChildren: './help-center/help-center.module#HelpCenterPageModule',
+    loadChildren: './pages/help-center/help-center.module#HelpCenterPageModule',
     canActivate: [AuthGuardService]
 
   },
   {
     path: 'about-us',
-    loadChildren: './about-us/about-us.module#AboutUsPageModule',
+    loadChildren: './pages/about-us/about-us.module#AboutUsPageModule',
     canActivate: [AuthGuardService]
 
   },
   {
     path: 'doctors-list',
-    loadChildren: './doctors-list/doctors-list.module#DoctorsListPageModule'
+    loadChildren: './pages/doctors-list/doctors-list.module#DoctorsListPageModule',
+    canActivate: [AuthGuardService]
   },
   {
     path: 'clinics-list',
-    loadChildren: './clinics-list/clinics-list.module#ClinicsListPageModule'
-  },
-  {
-    path: 'specializations-list',
-    loadChildren: './specializations-list/specializations-list.module#SpecializationsListPageModule'
+    loadChildren: './pages/clinics-list/clinics-list.module#ClinicsListPageModule'
   },
   {
     path: 'location-search',
-    loadChildren: './location-search/location-search.module#LocationSearchPageModule',
+    loadChildren: './pages/location-search/location-search.module#LocationSearchPageModule',
     canActivate: [AuthGuardService]
 
   },
   {
     path: 'clinic-hosp-search',
-    loadChildren: './clinic-hosp-search/clinic-hosp-search.module#ClinicHospSearchPageModule'
+    loadChildren: './pages/clinic-hosp-search/clinic-hosp-search.module#ClinicHospSearchPageModule'
   },
   {
     path: 'notifications',
-    loadChildren: './notifications/notifications.module#NotificationsPageModule'
+    loadChildren: './pages/notifications/notifications.module#NotificationsPageModule'
   },
   {
     path: 'laboratories',
-    loadChildren: './laboratories/laboratories.module#LaboratoriesPageModule'
+    loadChildren: './pages/laboratories/laboratories.module#LaboratoriesPageModule'
   },
   {
     path: 'pharmacies',
-    loadChildren: './pharmacies/pharmacies.module#PharmaciesPageModule'
+    loadChildren: './pages/pharmacies/pharmacies.module#PharmaciesPageModule'
   },
   {
     path: 'profile',
-    loadChildren: './profile/profile.module#ProfilePageModule'
+    loadChildren: './pages/profile/profile.module#ProfilePageModule'
   },
   {
     path: 'full-text-search',
-    loadChildren: './full-text-search/full-text-search.module#FullTextSearchPageModule',
+    loadChildren: './pages/full-text-search/full-text-search.module#FullTextSearchPageModule',
     canActivate: [AuthGuardService]
 
   },
   {
     path: 'map-view-doctors',
-    loadChildren: './map-view-doctors/map-view-doctors.module#MapViewDoctorsPageModule'
+    loadChildren: './pages/map-view-doctors/map-view-doctors.module#MapViewDoctorsPageModule'
   },
   {
     path: 'doctor-booking/:id',
-    loadChildren: './doctor-booking/doctor-booking.module#DoctorBookingPageModule',
+    loadChildren: './pages/doctor-booking/doctor-booking.module#DoctorBookingPageModule',
     canActivate: [AuthGuardService]
 
   },
   {
     path: 'appointment-detail/:id',
-    loadChildren: './appointment-detail/appointment-detail.module#AppointmentDetailPageModule',
+    loadChildren: './pages/appointment-detail/appointment-detail.module#AppointmentDetailPageModule',
     canActivate: [AuthGuardService]
 
   },
   {
     path: 'medical-record-detail/:ref',
-    loadChildren: './medical-record-detail/medical-record-detail.module#MedicalRecordDetailPageModule',
+    loadChildren: './pages/medical-record-detail/medical-record-detail.module#MedicalRecordDetailPageModule',
     canActivate: [AuthGuardService]
 
   },
   {
     path: 'popover-add-member',
-    loadChildren: './popover-add-member/popover-add-member.module#PopoverAddMemberPageModule',
+    loadChildren: './pages/popover-add-member/popover-add-member.module#PopoverAddMemberPageModule',
     canActivate: [AuthGuardService]
 
   },
   {
     path: 'appointment-confirmation/:id',
-    loadChildren: './appointment-confirmation/appointment-confirmation.module#AppointmentConfirmationPageModule',
+    loadChildren: './pages/appointment-confirmation/appointment-confirmation.module#AppointmentConfirmationPageModule',
     canActivate: [AuthGuardService]
 
   },
-  { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
-  { path: 'landing', loadChildren: './landing/landing.module#LandingPageModule' },
-  { path: 'signup', loadChildren: './signup/signup.module#SignupPageModule' },
+  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
+  { path: 'landing', loadChildren: './pages/landing/landing.module#LandingPageModule' },
+  { path: 'signup', loadChildren: './pages/signup/signup.module#SignupPageModule' },
+  { path: 'qualifications-list', loadChildren: './pages/qualifications-list/qualifications-list.module#QualificationsListPageModule' },
 ];
 
 @NgModule({

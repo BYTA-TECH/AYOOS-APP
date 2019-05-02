@@ -1,6 +1,6 @@
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { DoctorsListPageModule } from './doctors-list/doctors-list.module';
-import { LocationSearchPageModule } from './location-search/location-search.module';
+import { DoctorsListPageModule } from './pages/doctors-list/doctors-list.module';
+import { LocationSearchPageModule } from './pages/location-search/location-search.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -15,9 +15,9 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'
 import {  GoogleMapsAPIWrapper, AgmCoreModule, InfoWindowManager } from '@agm/core';
-import { FilterModalComponentModule } from './filter-modal/filter-modal.module';
-import { MapViewDoctorsPageModule } from './map-view-doctors/map-view-doctors.module';
-import {PopoverAddMemberPageModule} from './popover-add-member/popover-add-member.module'
+import { FilterModalComponentModule } from './pages/filter-modal/filter-modal.module';
+import { MapViewDoctorsPageModule } from './pages/map-view-doctors/map-view-doctors.module';
+import {PopoverAddMemberPageModule} from './pages/popover-add-member/popover-add-member.module'
 import { KeycloakAdminClient } from 'keycloak-admin/lib/client';
 
 
