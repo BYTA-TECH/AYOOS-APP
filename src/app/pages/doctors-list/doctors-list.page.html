@@ -9,9 +9,12 @@
     </ion-item>
     </ion-toolbar>
     <ion-toolbar no-border>
-      <ion-buttons slot="end">
-        <ion-button (click)="filterModal()">
+      <ion-buttons >
+        <ion-button slot="start" (click)="filterModal()">
           <ion-icon src="/assets/funnel.svg"></ion-icon>
+        </ion-button>
+        <ion-button (click)="presentMapModal()" slot="end">
+          <ion-icon name="map"  ></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
