@@ -5,10 +5,10 @@ import { ApiConfiguration, ApiConfigurationInterface } from './api-configuration
 
 import { UserResourceService } from './services/user-resource.service';
 import { AccountResourceService } from './services/account-resource.service';
+import { CommandResourceService } from './services/command-resource.service';
 import { QueryResourceService } from './services/query-resource.service';
 import { GatewayResourceService } from './services/gateway-resource.service';
 import { LogoutResourceService } from './services/logout-resource.service';
-import { CommandResourceService } from './services/command-resource.service';
 
 /**
  * Provider for all Api services, plus ApiConfiguration
@@ -25,10 +25,10 @@ import { CommandResourceService } from './services/command-resource.service';
     ApiConfiguration,
     UserResourceService,
     AccountResourceService,
+    CommandResourceService,
     QueryResourceService,
     GatewayResourceService,
-    LogoutResourceService,
-    CommandResourceService
+    LogoutResourceService
   ],
 })
 export class ApiModule {

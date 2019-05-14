@@ -1,9 +1,56 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-buttons>
+      <ion-back-button>
+        </ion-back-button>
     <ion-title>profile</ion-title>
+    <ion-button (click)="logOut()">
+    <ion-icon name="power" ></ion-icon>
+    </ion-button>    
+  </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-<ion-content padding>
-
+<ion-content>
+<ion-card>
+  <ion-item>
+      <ion-input  slot="start" placeholder="name" [(ngModel)]="profile.name" ><strong></strong>
+    </ion-input>
+    
+     
+    <img src="assets/images/jack.jpeg" slot="end" class="img"/>
+  </ion-item>
+  <ion-item>
+      <ion-input size="3" slot="start" placeholder="dob:27/7/2000"></ion-input>
+      <ion-text class="editButton"><p>id :{{profile.preferred_username}}</p></ion-text>
+  </ion-item>
+</ion-card>
+<ion-grid>
+  <ion-row>
+  <ion-input placeholder="e-mail" [(ngModel)]="profile.email"></ion-input><br>
+  </ion-row>
+  <ion-row>
+  <ion-input placeholder="phone" [(ngModel)]="moreInfo.phoneNumber"></ion-input><br>
+  </ion-row>
+ <ion-row>
+    <ion-card-title slot="start" slot="start"><strong> Address</strong></ion-card-title>
+  </ion-row>
+  <ion-row>
+  <ion-input placeholder="city" [(ngModel)]="profile.city"></ion-input>
+  </ion-row>
+  <ion-row>
+  <ion-input placeholder="district"></ion-input>
+  </ion-row>
+  <ion-row>
+  <ion-input placeholder="state"></ion-input>
+  </ion-row>
+  <ion-row>
+  <ion-input placeholder="coutry"></ion-input>
+  </ion-row>
+   <ion-row>
+  <ion-input placeholder="zipCode"></ion-input>
+  </ion-row>
+      <ion-button expand="block" (click)="save()">save </ion-button>
+      
+</ion-grid>  
 </ion-content>
+

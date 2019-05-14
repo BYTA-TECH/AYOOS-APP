@@ -98,7 +98,8 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    loadChildren: './pages/profile/profile.module#ProfilePageModule'
+    loadChildren: './pages/profile/profile.module#ProfilePageModule',
+    canActivate: [AuthGuardService]
   },
   {
     path: 'full-text-search',

@@ -8,7 +8,9 @@ import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
 import { Doctor } from '../models/doctor';
-import { PageOfDoctor } from '../models/page-of-doctor';
+import { Review } from '../models/review';
+import { Patient } from '../models/patient';
+import { ReservedSlotDTO } from '../models/reserved-slot-dto';
 
 /**
  * Query Resource
@@ -17,11 +19,14 @@ import { PageOfDoctor } from '../models/page-of-doctor';
   providedIn: 'root',
 })
 class QueryResourceService extends __BaseService {
-  static readonly findDoctorUsingGETPath = '/api/doctor/{searchTerm}';
+  static readonly findDoctorsUsingGETPath = '/api/doctor/{searchTerm}';
   static readonly facetSearchUsingGETPath = '/api/facetSearch/{specialization}/{rating}/{feeFrom}/{feeTo}';
   static readonly findAllDoctorsUsingGETPath = '/api/findAllDoctors';
   static readonly findAllQualificationUsingGETPath = '/api/findAllQualification';
   static readonly searchByLocationUsingGETPath = '/api/findByLocationWithin';
+  static readonly findReviewByDoctorIdUsingGETPath = '/api/findReviewByDoctorId/{doctorId}';
+  static readonly findPatientUsingGETPath = '/api/patient/{patientCode}';
+  static readonly createSlotUsingGETPath = '/api/slot/{date}/{doctorId}';
 
   constructor(
     config: __Configuration,
@@ -31,17 +36,29 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
-   * @param searchTerm searchTerm
+   * @param params The `QueryResourceService.FindDoctorsUsingGETParams` containing the following parameters:
+   *
+   * - `searchTerm`: searchTerm
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
    * @return OK
    */
-  findDoctorUsingGETResponse(searchTerm: string): __Observable<__StrictHttpResponse<Doctor>> {
+  findDoctorsUsingGETResponse(params: QueryResourceService.FindDoctorsUsingGETParams): __Observable<__StrictHttpResponse<Array<Doctor>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
 
+    (params.sort || []).forEach(val => {if (val != null) __params = __params.append('sort', val.toString())});
+    if (params.size != null) __params = __params.set('size', params.size.toString());
+    if (params.page != null) __params = __params.set('page', params.page.toString());
     let req = new HttpRequest<any>(
       'GET',
-      this.rootUrl + `/api/doctor/${searchTerm}`,
+      this.rootUrl + `/api/doctor/${params.searchTerm}`,
       __body,
       {
         headers: __headers,
@@ -52,17 +69,26 @@ class QueryResourceService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<Doctor>;
+        return _r as __StrictHttpResponse<Array<Doctor>>;
       })
     );
   }
   /**
-   * @param searchTerm searchTerm
+   * @param params The `QueryResourceService.FindDoctorsUsingGETParams` containing the following parameters:
+   *
+   * - `searchTerm`: searchTerm
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
    * @return OK
    */
-  findDoctorUsingGET(searchTerm: string): __Observable<Doctor> {
-    return this.findDoctorUsingGETResponse(searchTerm).pipe(
-      __map(_r => _r.body as Doctor)
+  findDoctorsUsingGET(params: QueryResourceService.FindDoctorsUsingGETParams): __Observable<Array<Doctor>> {
+    return this.findDoctorsUsingGETResponse(params).pipe(
+      __map(_r => _r.body as Array<Doctor>)
     );
   }
 
@@ -85,7 +111,7 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  facetSearchUsingGETResponse(params: QueryResourceService.FacetSearchUsingGETParams): __Observable<__StrictHttpResponse<PageOfDoctor>> {
+  facetSearchUsingGETResponse(params: QueryResourceService.FacetSearchUsingGETParams): __Observable<__StrictHttpResponse<Array<Doctor>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -109,7 +135,7 @@ class QueryResourceService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<PageOfDoctor>;
+        return _r as __StrictHttpResponse<Array<Doctor>>;
       })
     );
   }
@@ -132,9 +158,9 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  facetSearchUsingGET(params: QueryResourceService.FacetSearchUsingGETParams): __Observable<PageOfDoctor> {
+  facetSearchUsingGET(params: QueryResourceService.FacetSearchUsingGETParams): __Observable<Array<Doctor>> {
     return this.facetSearchUsingGETResponse(params).pipe(
-      __map(_r => _r.body as PageOfDoctor)
+      __map(_r => _r.body as Array<Doctor>)
     );
   }
 
@@ -149,7 +175,7 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  findAllDoctorsUsingGETResponse(params: QueryResourceService.FindAllDoctorsUsingGETParams): __Observable<__StrictHttpResponse<PageOfDoctor>> {
+  findAllDoctorsUsingGETResponse(params: QueryResourceService.FindAllDoctorsUsingGETParams): __Observable<__StrictHttpResponse<Array<Doctor>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -169,7 +195,7 @@ class QueryResourceService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<PageOfDoctor>;
+        return _r as __StrictHttpResponse<Array<Doctor>>;
       })
     );
   }
@@ -184,9 +210,9 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  findAllDoctorsUsingGET(params: QueryResourceService.FindAllDoctorsUsingGETParams): __Observable<PageOfDoctor> {
+  findAllDoctorsUsingGET(params: QueryResourceService.FindAllDoctorsUsingGETParams): __Observable<Array<Doctor>> {
     return this.findAllDoctorsUsingGETResponse(params).pipe(
-      __map(_r => _r.body as PageOfDoctor)
+      __map(_r => _r.body as Array<Doctor>)
     );
   }
 
@@ -257,7 +283,7 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  searchByLocationUsingGETResponse(params: QueryResourceService.SearchByLocationUsingGETParams): __Observable<__StrictHttpResponse<PageOfDoctor>> {
+  searchByLocationUsingGETResponse(params: QueryResourceService.SearchByLocationUsingGETParams): __Observable<__StrictHttpResponse<Array<Doctor>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -279,7 +305,7 @@ class QueryResourceService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<PageOfDoctor>;
+        return _r as __StrictHttpResponse<Array<Doctor>>;
       })
     );
   }
@@ -298,14 +324,195 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  searchByLocationUsingGET(params: QueryResourceService.SearchByLocationUsingGETParams): __Observable<PageOfDoctor> {
+  searchByLocationUsingGET(params: QueryResourceService.SearchByLocationUsingGETParams): __Observable<Array<Doctor>> {
     return this.searchByLocationUsingGETResponse(params).pipe(
-      __map(_r => _r.body as PageOfDoctor)
+      __map(_r => _r.body as Array<Doctor>)
+    );
+  }
+
+  /**
+   * @param params The `QueryResourceService.FindReviewByDoctorIdUsingGETParams` containing the following parameters:
+   *
+   * - `doctorId`: doctorId
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  findReviewByDoctorIdUsingGETResponse(params: QueryResourceService.FindReviewByDoctorIdUsingGETParams): __Observable<__StrictHttpResponse<Array<Review>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    (params.sort || []).forEach(val => {if (val != null) __params = __params.append('sort', val.toString())});
+    if (params.size != null) __params = __params.set('size', params.size.toString());
+    if (params.page != null) __params = __params.set('page', params.page.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/findReviewByDoctorId/${params.doctorId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<Review>>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.FindReviewByDoctorIdUsingGETParams` containing the following parameters:
+   *
+   * - `doctorId`: doctorId
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  findReviewByDoctorIdUsingGET(params: QueryResourceService.FindReviewByDoctorIdUsingGETParams): __Observable<Array<Review>> {
+    return this.findReviewByDoctorIdUsingGETResponse(params).pipe(
+      __map(_r => _r.body as Array<Review>)
+    );
+  }
+
+  /**
+   * @param patientCode patientCode
+   * @return OK
+   */
+  findPatientUsingGETResponse(patientCode: string): __Observable<__StrictHttpResponse<Patient>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/patient/${patientCode}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Patient>;
+      })
+    );
+  }
+  /**
+   * @param patientCode patientCode
+   * @return OK
+   */
+  findPatientUsingGET(patientCode: string): __Observable<Patient> {
+    return this.findPatientUsingGETResponse(patientCode).pipe(
+      __map(_r => _r.body as Patient)
+    );
+  }
+
+  /**
+   * @param params The `QueryResourceService.CreateSlotUsingGETParams` containing the following parameters:
+   *
+   * - `sort`: sort
+   *
+   * - `size`: size
+   *
+   * - `page`: page
+   *
+   * - `doctorId`: doctorId
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  createSlotUsingGETResponse(params: QueryResourceService.CreateSlotUsingGETParams): __Observable<__StrictHttpResponse<Array<ReservedSlotDTO>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    (params.sort || []).forEach(val => {if (val != null) __params = __params.append('sort', val.toString())});
+    if (params.size != null) __params = __params.set('size', params.size.toString());
+    if (params.page != null) __params = __params.set('page', params.page.toString());
+
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/slot/${params.date}/${params.doctorId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<ReservedSlotDTO>>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.CreateSlotUsingGETParams` containing the following parameters:
+   *
+   * - `sort`: sort
+   *
+   * - `size`: size
+   *
+   * - `page`: page
+   *
+   * - `doctorId`: doctorId
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  createSlotUsingGET(params: QueryResourceService.CreateSlotUsingGETParams): __Observable<Array<ReservedSlotDTO>> {
+    return this.createSlotUsingGETResponse(params).pipe(
+      __map(_r => _r.body as Array<ReservedSlotDTO>)
     );
   }
 }
 
 module QueryResourceService {
+
+  /**
+   * Parameters for findDoctorsUsingGET
+   */
+  export interface FindDoctorsUsingGETParams {
+
+    /**
+     * searchTerm
+     */
+    searchTerm: string;
+
+    /**
+     * Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+
+    /**
+     * Size of a page
+     */
+    size?: number;
+
+    /**
+     * Page number of the requested page
+     */
+    page?: number;
+  }
 
   /**
    * Parameters for facetSearchUsingGET
@@ -419,6 +626,63 @@ module QueryResourceService {
      * Page number of the requested page
      */
     page?: number;
+  }
+
+  /**
+   * Parameters for findReviewByDoctorIdUsingGET
+   */
+  export interface FindReviewByDoctorIdUsingGETParams {
+
+    /**
+     * doctorId
+     */
+    doctorId: string;
+
+    /**
+     * Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+
+    /**
+     * Size of a page
+     */
+    size?: number;
+
+    /**
+     * Page number of the requested page
+     */
+    page?: number;
+  }
+
+  /**
+   * Parameters for createSlotUsingGET
+   */
+  export interface CreateSlotUsingGETParams {
+
+    /**
+     * sort
+     */
+    sort: Array<string>;
+
+    /**
+     * size
+     */
+    size: number;
+
+    /**
+     * page
+     */
+    page: number;
+
+    /**
+     * doctorId
+     */
+    doctorId: number;
+
+    /**
+     * date
+     */
+    date: string;
   }
 }
 

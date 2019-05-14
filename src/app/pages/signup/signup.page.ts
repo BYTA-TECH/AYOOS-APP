@@ -1,8 +1,13 @@
+import { OAuthService } from 'angular-oauth2-oidc';
+import { PatientDTO } from './../../api/models/patient-dto';
+import { Patient } from './../../api/models/patient';
 import { NavController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
-import { KeycloakAdminClient } from 'keycloak-admin/lib/client'
+import { KeycloakAdminClient } from 'keycloak-admin/lib/client';
 import { getHeapStatistics } from 'v8';
 import { RequiredActionAlias } from 'keycloak-admin/lib/defs/requiredActionProviderRepresentation';
+import { CommandResourceService } from 'src/app/api/services';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-signup',
@@ -11,14 +16,23 @@ import { RequiredActionAlias } from 'keycloak-admin/lib/defs/requiredActionProvi
 })
 export class SignupPage implements OnInit {
 
-  constructor(private navCtrl: NavController) {
+  constructor(private navCtrl: NavController,
+    private commandResource: CommandResourceService,
+    private oauthService: OAuthService) {
     this.kcAdminClient = new KeycloakAdminClient();
     this.kcAdminClient.setConfig({
-        baseUrl:'http://35.237.193.86:8080/auth'
+        baseUrl: 'http://35.237.193.86:8080/auth'
 
-     })
+     });
     this.configureKeycloakAdmin();
   }
+
+  username: string;
+  password: string;
+  email: string;
+  kcAdminClient: KeycloakAdminClient;
+  phone: number;
+  agreement: boolean;
 
   configureKeycloakAdmin() {
     this.kcAdminClient.auth({
@@ -31,21 +45,14 @@ export class SignupPage implements OnInit {
 
     });
   }
-
-  username: string;
-  password: string;
-  email: string;
-  kcAdminClient: KeycloakAdminClient;
-  phone: number;
-  agreement:boolean;
   signup() {
-    let map = new Map([
-      ["phone", this.phone],
-      ["value", 3]
+    const map = new Map([
+      ['phone', this.phone],
+      ['value', 3]
     ]);
 
     this.kcAdminClient.users.create({
-      realm:'ayoos',
+      realm: 'graeshoppe',
       username: this.username,
       email: this.email,
       enabled: true,
@@ -56,25 +63,37 @@ export class SignupPage implements OnInit {
       attributes: map
 
     }).then(res => {
-      this.navCtrl.navigateForward("/login");
-
+      console.log("Account Created Keycloak");
+      this.oauthService.fetchTokenUsingPasswordFlow(
+        this.username, this.password, new HttpHeaders()
+      ).then(() => {
+        console.log("Logged In");
+        const patient: PatientDTO = {};
+        patient.patientCode = this.username;
+        this.commandResource.createPatientUsingPOST(patient)
+        .subscribe(() => {
+          console.log("Patient Created");
+          this.oauthService.logOut();
+          this.navCtrl.navigateForward('/login');
+        });
+      });
     });
 
 
 
   }
 
-  dataChanged(agreement){
-    console.log("Old Agreement is "+this.agreement);
+  dataChanged(agreement) {
+    console.log('Old Agreement is '+ this.agreement);
 
-    console.log("Agreement is "+agreement);
-    this.agreement=agreement;
+    console.log('Agreement is '+ agreement);
+    this.agreement = agreement;
 
   }
 
 
   ngOnInit() {
-    this.agreement=false;
+    this.agreement = false;
   }
 
 }

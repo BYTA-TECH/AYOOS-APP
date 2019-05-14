@@ -51,7 +51,7 @@ export class DoctorsListPage implements OnInit {
         console.log(data);
         this.queryResourceService.facetSearchUsingGET(data.data)
         .subscribe(result => {
-          this.doctors = result.content;
+        //  this.doctors = result.content;
         })
       })
 
@@ -67,7 +67,7 @@ export class DoctorsListPage implements OnInit {
     })
     .subscribe(result => {
       console.table(this.doctors);
-      this.doctors = result.content;
+    //  this.doctors = result.content;
       console.table(this.doctors);
     });
   }
@@ -76,7 +76,7 @@ export class DoctorsListPage implements OnInit {
 
     this.queryResourceService.findAllDoctorsUsingGET({size: 5})
     .subscribe(result => {
-      this.doctors = result.content;
+     // this.doctors = result.content;
       console.table(this.doctors);
     });
   }

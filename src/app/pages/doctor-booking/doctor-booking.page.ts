@@ -74,10 +74,10 @@ export class DoctorBookingPage implements OnInit {
       console.log('Got User From Keycloak' , data);
 
     });
-    this.queryResourceService.findDoctorUsingGET(this.doctorId)
-    .subscribe(result => {
-      console.log('Doctor Booking' , result);
-      this.doctor = result;
-    });
+    // this.queryResourceService.findDoctorUsingGET(this.doctorId)
+    // .subscribe(result => {
+    //   console.log('Doctor Booking' , result);
+    //   this.doctor = result;
+    // });
   }
 }

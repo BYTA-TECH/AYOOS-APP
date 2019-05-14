@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, NavController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { OAuthService, JwksValidationHandler, AuthConfig, NullValidationHandler } from 'angular-oauth2-oidc';
@@ -79,7 +79,8 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private oauthService: OAuthService
+    private oauthService: OAuthService,
+    private navController: NavController
   ) {
 
     this.initializeApp();
@@ -177,5 +178,9 @@ export class AppComponent {
     // does not make sense for a SPA that runs in the browser. That's why the property is called dummyClientSecret
     // Using such a dummy secreat is as safe as using no secret.
     this.oauthService.dummyClientSecret = '9dc04b00-55f1-49b5-88fa-21b401e442dd';
+  }
+  profile()
+  {
+     this.navController.navigateForward('profile');
   }
 }
