@@ -12,16 +12,16 @@
 </ion-header>
 <ion-content>
 <ion-card>
-    <ion-card-subtitle ><p>id :{{profile.preferred_username}}</p></ion-card-subtitle>
+    <ion-text>id :{{profile.preferred_username}}</ion-text>
 
   <ion-item>
       <ion-input  slot="start" placeholder="name" [(ngModel)]="profile.name" ><strong></strong>
     </ion-input>
     
      
-    <img *ngIf="moreInfo.image == null && fileUrl==null" src="assets/images/jack.jpeg" slot="end" class="img"/>
-    <img *ngIf="moreInfo.image == null && fileUrl!=null" src="fileUrl" slot="end" class="img"/>    
-    <img  *ngIf="moreInfo.image != null"  [src]="'data:' + moreInfo.imageContentType + ';base64,' + moreInfo.image" />
+    <!-- <img *ngIf="moreInfo.image == null && fileUrl==null" src="assets/images/jack.jpeg" slot="end" class="img"/>
+    <img *ngIf="moreInfo.image == null && fileUrl!=null" src="fileUrl" slot="end" class="img"/>     -->
+    <img [src]="'data:' + moreInfo.imageContentType + ';base64,' + moreInfo.image"/>
     
   </ion-item>
   <ion-item>
