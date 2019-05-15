@@ -7,6 +7,7 @@ import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-respo
 import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
+import { AddressLineDTO } from '../models/address-line-dto';
 import { Doctor } from '../models/doctor';
 import { Review } from '../models/review';
 import { Patient } from '../models/patient';
@@ -19,6 +20,7 @@ import { ReservedSlotDTO } from '../models/reserved-slot-dto';
   providedIn: 'root',
 })
 class QueryResourceService extends __BaseService {
+  static readonly getAllAddressLinesByPatientIdUsingGETPath = '/api/address-lines/{patientId}';
   static readonly findDoctorsUsingGETPath = '/api/doctor/{searchTerm}';
   static readonly facetSearchUsingGETPath = '/api/facetSearch/{specialization}/{rating}/{feeFrom}/{feeTo}';
   static readonly findAllDoctorsUsingGETPath = '/api/findAllDoctors';
@@ -33,6 +35,42 @@ class QueryResourceService extends __BaseService {
     http: HttpClient
   ) {
     super(config, http);
+  }
+
+  /**
+   * @param patientId patientId
+   * @return OK
+   */
+  getAllAddressLinesByPatientIdUsingGETResponse(patientId: number): __Observable<__StrictHttpResponse<Array<AddressLineDTO>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/address-lines/${patientId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<AddressLineDTO>>;
+      })
+    );
+  }
+  /**
+   * @param patientId patientId
+   * @return OK
+   */
+  getAllAddressLinesByPatientIdUsingGET(patientId: number): __Observable<Array<AddressLineDTO>> {
+    return this.getAllAddressLinesByPatientIdUsingGETResponse(patientId).pipe(
+      __map(_r => _r.body as Array<AddressLineDTO>)
+    );
   }
 
   /**

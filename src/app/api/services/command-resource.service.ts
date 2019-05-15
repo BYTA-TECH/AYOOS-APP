@@ -9,6 +9,7 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
 
 import { AddressLineDTO } from '../models/address-line-dto';
 import { PatientDTO } from '../models/patient-dto';
+import { Patient } from '../models/patient';
 import { UserRatingDTO } from '../models/user-rating-dto';
 import { ReviewDTO } from '../models/review-dto';
 
@@ -23,6 +24,7 @@ class CommandResourceService extends __BaseService {
   static readonly updateAddressLineUsingPUTPath = '/api/address-lines';
   static readonly createPatientUsingPOSTPath = '/api/patients';
   static readonly updatePatientUsingPUTPath = '/api/patients';
+  static readonly modelToDtoUsingPOSTPath = '/api/patients/modelToDto';
   static readonly ratedoctorUsingPOSTPath = '/api/rating';
   static readonly reviewdoctorUsingPOSTPath = '/api/review';
 
@@ -173,6 +175,42 @@ class CommandResourceService extends __BaseService {
    */
   updatePatientUsingPUT(patientDTO: PatientDTO): __Observable<PatientDTO> {
     return this.updatePatientUsingPUTResponse(patientDTO).pipe(
+      __map(_r => _r.body as PatientDTO)
+    );
+  }
+
+  /**
+   * @param patient patient
+   * @return OK
+   */
+  modelToDtoUsingPOSTResponse(patient: Patient): __Observable<__StrictHttpResponse<PatientDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = patient;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/patients/modelToDto`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PatientDTO>;
+      })
+    );
+  }
+  /**
+   * @param patient patient
+   * @return OK
+   */
+  modelToDtoUsingPOST(patient: Patient): __Observable<PatientDTO> {
+    return this.modelToDtoUsingPOSTResponse(patient).pipe(
       __map(_r => _r.body as PatientDTO)
     );
   }

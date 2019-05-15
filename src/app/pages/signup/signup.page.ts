@@ -1,3 +1,4 @@
+import { AddressLineDTO } from './../../api/models/address-line-dto';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { PatientDTO } from './../../api/models/patient-dto';
 import { Patient } from './../../api/models/patient';
@@ -76,6 +77,13 @@ export class SignupPage implements OnInit {
           this.oauthService.logOut();
           this.navCtrl.navigateForward('/login');
         });
+         let addressDto : AddressLineDTO={};
+         addressDto.patientId=patient.id;
+
+        this.commandResource.createAddressLineUsingPOST(addressDto).subscribe(
+          succs=>{console.log('succ creating new addresLine for patient ',succs);},
+          err=>{console.log('error creating new adressLine for patient ',err)}
+        )
       });
     });
 
