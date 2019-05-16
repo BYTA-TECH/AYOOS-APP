@@ -1,12 +1,14 @@
 /* tslint:disable */
 import { AddressLine } from './address-line';
 export interface Patient {
+  id?: number;
   addressLines?: Array<AddressLine>;
-  createdDate?: string;
   dmsId?: string;
   dob?: string;
   gender?: string;
-  id?: number;
+  createdDate?: string;
+  image?: string;
+  imageContentType?: string;
   location?: string;
   patientCode?: string;
   phoneNumber?: number;

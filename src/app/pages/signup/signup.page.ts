@@ -64,26 +64,26 @@ export class SignupPage implements OnInit {
       attributes: map
 
     }).then(res => {
-      console.log("Account Created Keycloak");
+      console.log('Account Created Keycloak');
       this.oauthService.fetchTokenUsingPasswordFlow(
         this.username, this.password, new HttpHeaders()
       ).then(() => {
-        console.log("Logged In");
+        console.log('Logged In');
         const patient: PatientDTO = {};
         patient.patientCode = this.username;
         this.commandResource.createPatientUsingPOST(patient)
         .subscribe(() => {
-          console.log("Patient Created");
+          console.log('Patient Created');
           this.oauthService.logOut();
           this.navCtrl.navigateForward('/login');
         });
-         let addressDto : AddressLineDTO={};
-         addressDto.patientId=patient.id;
+         const addressDto: AddressLineDTO = {};
+         addressDto.patientId = patient.id;
 
         this.commandResource.createAddressLineUsingPOST(addressDto).subscribe(
-          succs=>{console.log('succ creating new addresLine for patient ',succs);},
-          err=>{console.log('error creating new adressLine for patient ',err)}
-        )
+          succs => {console.log('succ creating new addresLine for patient ', succs); },
+          err => {console.log('error creating new adressLine for patient ', err);}
+        );
       });
     });
 
@@ -92,9 +92,9 @@ export class SignupPage implements OnInit {
   }
 
   dataChanged(agreement) {
-    console.log('Old Agreement is '+ this.agreement);
+    console.log('Old Agreement is ' + this.agreement);
 
-    console.log('Agreement is '+ agreement);
+    console.log('Agreement is ' + agreement);
     this.agreement = agreement;
 
   }

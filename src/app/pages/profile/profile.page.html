@@ -2,71 +2,70 @@
   <ion-toolbar color="primary">
     <ion-buttons>
       <ion-back-button>
-        </ion-back-button>
-    <ion-title>profile</ion-title>
-    <ion-button (click)="logOut()">
-    <ion-icon name="power" ></ion-icon>
-    </ion-button>    
-  </ion-buttons>
+      </ion-back-button>
+      <ion-title>profile</ion-title>
+      <ion-button (click)="logOut()">
+        <ion-icon name="power"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-<ion-card>
-    <ion-text>id :{{profile.preferred_username}}</ion-text>
-
-  <ion-item>
-      <ion-input  slot="start" placeholder="name" [(ngModel)]="profile.name" ><strong></strong>
-    </ion-input>
-    
-     
-    <!-- <img *ngIf="moreInfo.image == null && fileUrl==null" src="assets/images/jack.jpeg" slot="end" class="img"/>
-    <img *ngIf="moreInfo.image == null && fileUrl!=null" src="fileUrl" slot="end" class="img"/>     -->
-    <img [src]="'data:' + moreInfo.imageContentType + ';base64,' + moreInfo.image"/>
-    
-  </ion-item>
-  <ion-item>
-      <ion-input type="date" size="2" slot="start" [(ngModel)]="moreInfo.dob" >dob:</ion-input>
-      <ion-button size="3" slot="end" (click)="triggerUpload($event)" >
-        <ion-icon name="camera" slot="icon-only" ></ion-icon>
-        </ion-button>
-        <input hidden id="image" type="file" accept="image/*" color="danger" (change)="onSelectFile($event)"/>
+  <ion-card>
+    <!-- <ion-text>id :{{profile.preferred_username}}</ion-text> -->
+    <!-- <ion-card-subtitle>{{profile.preferred_username | uppercase}}</ion-card-subtitle> -->
+    <ion-item>
+      <ion-label>{{profile.preferred_username | uppercase}}</ion-label>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <img [src]="'data:' + moreInfo.imageContentType + ';base64,' + moreInfo.image" />
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item>
+      <ion-input type="date" size="2" slot="start" [(ngModel)]="moreInfo.dob">dob:</ion-input>
+      <ion-button size="3" slot="end" (click)="triggerUpload($event)">
+        <ion-icon name="camera" slot="icon-only"></ion-icon>
+      </ion-button>
+      <input hidden id="image" type="file" accept="image/*" color="danger" (change)="onSelectFile($event)" />
     </ion-item>
 
-  <ion-item>
+    <ion-item>
       <ion-label>Gender</ion-label>
-          <ion-select [(ngModel)]="moreInfo.gender">
-            <ion-select-option value="f">Female</ion-select-option>
-            <ion-select-option value="m">Male</ion-select-option>
-          </ion-select>
-  </ion-item>
-</ion-card>
-<ion-grid>
-  <ion-row>
-  <ion-input placeholder="e-mail" [(ngModel)]="profile.email"></ion-input><br>
-  </ion-row>
-  <ion-row>
-  <ion-input placeholder="phone" [(ngModel)]="moreInfo.phoneNumber"></ion-input><br>
-  </ion-row>
- <ion-row>
-    <ion-card-title slot="start" ><strong> Address</strong></ion-card-title>
-  </ion-row>
-  <ion-row>
-  <ion-input placeholder="city" [(ngModel)]="addressLine[0].city" ></ion-input>
-  </ion-row>
-  <ion-row>
-  <ion-input placeholder="district" [(ngModel)]="addressLine[0].district"></ion-input>
-  </ion-row>
-  <ion-row>
-  <ion-input placeholder="state"  [(ngModel)]="addressLine[0].state"></ion-input>
-  </ion-row>
-  <ion-row>
-  <ion-input placeholder="coutry" [(ngModel)]="addressLine[0].coutry"></ion-input>
-  </ion-row>
-   <ion-row>
-  <ion-input placeholder="zipCode" [(ngModel)]="addressLine[0].zipCode"></ion-input>
-  </ion-row>
-      <ion-button expand="block" (click)="save()">save </ion-button>
-      
-</ion-grid>  
-</ion-content>
+      <ion-select [(ngModel)]="moreInfo.gender">
+        <ion-select-option value="f">Female</ion-select-option>
+        <ion-select-option value="m">Male</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-card>
+  <ion-grid>
+    <ion-row>
+      <ion-input placeholder="e-mail" [(ngModel)]="profile.email"></ion-input><br>
+    </ion-row>
+    <ion-row>
+      <ion-input placeholder="phone" [(ngModel)]="moreInfo.phoneNumber"></ion-input><br>
+    </ion-row>
+    <ion-row>
+      <ion-card-title slot="start"><strong> Address</strong></ion-card-title>
+    </ion-row>
+    <ion-row>
+      <ion-input placeholder="city" [(ngModel)]="addressLine[0].city"></ion-input>
+    </ion-row>
+    <ion-row>
+      <ion-input placeholder="district" [(ngModel)]="addressLine[0].district"></ion-input>
+    </ion-row>
+    <ion-row>
+      <ion-input placeholder="state" [(ngModel)]="addressLine[0].state"></ion-input>
+    </ion-row>
+    <ion-row>
+      <ion-input placeholder="country" [(ngModel)]="addressLine[0].country"></ion-input>
+    </ion-row>
+    <ion-row>
+      <ion-input placeholder="zipCode" [(ngModel)]="addressLine[0].zipCode"></ion-input>
+    </ion-row>
+    <ion-button expand="block" (click)="save()">save </ion-button>
 
+  </ion-grid>
+</ion-content>

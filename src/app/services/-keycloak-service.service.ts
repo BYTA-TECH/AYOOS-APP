@@ -36,8 +36,6 @@ export class KeycloakService {
         realm: 'graeshoppe'
       },
       {
-        firstName: keycloakUser.name.split(' ')[0],
-        lastName: keycloakUser.name.split(' ')[1],
         email: keycloakUser.email
       }
     );

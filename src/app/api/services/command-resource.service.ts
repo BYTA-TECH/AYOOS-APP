@@ -8,6 +8,12 @@ import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
 import { AddressLineDTO } from '../models/address-line-dto';
+import { CommandResource } from '../models/command-resource';
+import { AdditionalInformationRequest } from '../models/additional-information-request';
+import { ConsultationDetails } from '../models/consultation-details';
+import { PaymentConfirmationRequest } from '../models/payment-confirmation-request';
+import { AppointmentRequest } from '../models/appointment-request';
+import { ProcessPayment } from '../models/process-payment';
 import { PatientDTO } from '../models/patient-dto';
 import { Patient } from '../models/patient';
 import { UserRatingDTO } from '../models/user-rating-dto';
@@ -22,6 +28,12 @@ import { ReviewDTO } from '../models/review-dto';
 class CommandResourceService extends __BaseService {
   static readonly createAddressLineUsingPOSTPath = '/api/address-lines';
   static readonly updateAddressLineUsingPUTPath = '/api/address-lines';
+  static readonly createAdditionalInformationRequestUsingPOSTPath = '/api/appointments/additionalInformationRequest/{taskId}';
+  static readonly createCollectAdditionalDetailsUsingPOSTPath = '/api/appointments/collectAdditionalDetails/{taskId}';
+  static readonly createConfirmPaymentUsingPOSTPath = '/api/appointments/confirmPayment/{taskId}';
+  static readonly createConfirmRegistrationUsingPOSTPath = '/api/appointments/confirmRegistration/{taskId}';
+  static readonly createInitiateAppointmentUsingPOSTPath = '/api/appointments/initiateAppointment';
+  static readonly createProcessPaymentUsingPOSTPath = '/api/appointments/processPayment/{taskId}';
   static readonly createPatientUsingPOSTPath = '/api/patients';
   static readonly updatePatientUsingPUTPath = '/api/patients';
   static readonly modelToDtoUsingPOSTPath = '/api/patients/modelToDto';
@@ -104,6 +116,266 @@ class CommandResourceService extends __BaseService {
   updateAddressLineUsingPUT(addressLineDTO: AddressLineDTO): __Observable<AddressLineDTO> {
     return this.updateAddressLineUsingPUTResponse(addressLineDTO).pipe(
       __map(_r => _r.body as AddressLineDTO)
+    );
+  }
+
+  /**
+   * @param params The `CommandResourceService.CreateAdditionalInformationRequestUsingPOSTParams` containing the following parameters:
+   *
+   * - `taskId`: taskId
+   *
+   * - `additionalInformationRequest`: additionalInformationRequest
+   *
+   * @return OK
+   */
+  createAdditionalInformationRequestUsingPOSTResponse(params: CommandResourceService.CreateAdditionalInformationRequestUsingPOSTParams): __Observable<__StrictHttpResponse<CommandResource>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    __body = params.additionalInformationRequest;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/appointments/additionalInformationRequest/${params.taskId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<CommandResource>;
+      })
+    );
+  }
+  /**
+   * @param params The `CommandResourceService.CreateAdditionalInformationRequestUsingPOSTParams` containing the following parameters:
+   *
+   * - `taskId`: taskId
+   *
+   * - `additionalInformationRequest`: additionalInformationRequest
+   *
+   * @return OK
+   */
+  createAdditionalInformationRequestUsingPOST(params: CommandResourceService.CreateAdditionalInformationRequestUsingPOSTParams): __Observable<CommandResource> {
+    return this.createAdditionalInformationRequestUsingPOSTResponse(params).pipe(
+      __map(_r => _r.body as CommandResource)
+    );
+  }
+
+  /**
+   * @param params The `CommandResourceService.CreateCollectAdditionalDetailsUsingPOSTParams` containing the following parameters:
+   *
+   * - `taskId`: taskId
+   *
+   * - `consultationDetails`: consultationDetails
+   *
+   * @return OK
+   */
+  createCollectAdditionalDetailsUsingPOSTResponse(params: CommandResourceService.CreateCollectAdditionalDetailsUsingPOSTParams): __Observable<__StrictHttpResponse<CommandResource>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    __body = params.consultationDetails;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/appointments/collectAdditionalDetails/${params.taskId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<CommandResource>;
+      })
+    );
+  }
+  /**
+   * @param params The `CommandResourceService.CreateCollectAdditionalDetailsUsingPOSTParams` containing the following parameters:
+   *
+   * - `taskId`: taskId
+   *
+   * - `consultationDetails`: consultationDetails
+   *
+   * @return OK
+   */
+  createCollectAdditionalDetailsUsingPOST(params: CommandResourceService.CreateCollectAdditionalDetailsUsingPOSTParams): __Observable<CommandResource> {
+    return this.createCollectAdditionalDetailsUsingPOSTResponse(params).pipe(
+      __map(_r => _r.body as CommandResource)
+    );
+  }
+
+  /**
+   * @param params The `CommandResourceService.CreateConfirmPaymentUsingPOSTParams` containing the following parameters:
+   *
+   * - `taskId`: taskId
+   *
+   * - `paymentConfirmationRequest`: paymentConfirmationRequest
+   *
+   * @return OK
+   */
+  createConfirmPaymentUsingPOSTResponse(params: CommandResourceService.CreateConfirmPaymentUsingPOSTParams): __Observable<__StrictHttpResponse<CommandResource>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    __body = params.paymentConfirmationRequest;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/appointments/confirmPayment/${params.taskId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<CommandResource>;
+      })
+    );
+  }
+  /**
+   * @param params The `CommandResourceService.CreateConfirmPaymentUsingPOSTParams` containing the following parameters:
+   *
+   * - `taskId`: taskId
+   *
+   * - `paymentConfirmationRequest`: paymentConfirmationRequest
+   *
+   * @return OK
+   */
+  createConfirmPaymentUsingPOST(params: CommandResourceService.CreateConfirmPaymentUsingPOSTParams): __Observable<CommandResource> {
+    return this.createConfirmPaymentUsingPOSTResponse(params).pipe(
+      __map(_r => _r.body as CommandResource)
+    );
+  }
+
+  /**
+   * @param taskId taskId
+   * @return OK
+   */
+  createConfirmRegistrationUsingPOSTResponse(taskId: string): __Observable<__StrictHttpResponse<CommandResource>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/appointments/confirmRegistration/${taskId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<CommandResource>;
+      })
+    );
+  }
+  /**
+   * @param taskId taskId
+   * @return OK
+   */
+  createConfirmRegistrationUsingPOST(taskId: string): __Observable<CommandResource> {
+    return this.createConfirmRegistrationUsingPOSTResponse(taskId).pipe(
+      __map(_r => _r.body as CommandResource)
+    );
+  }
+
+  /**
+   * @param appointmentRequest appointmentRequest
+   * @return OK
+   */
+  createInitiateAppointmentUsingPOSTResponse(appointmentRequest: AppointmentRequest): __Observable<__StrictHttpResponse<CommandResource>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = appointmentRequest;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/appointments/initiateAppointment`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<CommandResource>;
+      })
+    );
+  }
+  /**
+   * @param appointmentRequest appointmentRequest
+   * @return OK
+   */
+  createInitiateAppointmentUsingPOST(appointmentRequest: AppointmentRequest): __Observable<CommandResource> {
+    return this.createInitiateAppointmentUsingPOSTResponse(appointmentRequest).pipe(
+      __map(_r => _r.body as CommandResource)
+    );
+  }
+
+  /**
+   * @param params The `CommandResourceService.CreateProcessPaymentUsingPOSTParams` containing the following parameters:
+   *
+   * - `taskId`: taskId
+   *
+   * - `processPayment`: processPayment
+   *
+   * @return OK
+   */
+  createProcessPaymentUsingPOSTResponse(params: CommandResourceService.CreateProcessPaymentUsingPOSTParams): __Observable<__StrictHttpResponse<CommandResource>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    __body = params.processPayment;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/appointments/processPayment/${params.taskId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<CommandResource>;
+      })
+    );
+  }
+  /**
+   * @param params The `CommandResourceService.CreateProcessPaymentUsingPOSTParams` containing the following parameters:
+   *
+   * - `taskId`: taskId
+   *
+   * - `processPayment`: processPayment
+   *
+   * @return OK
+   */
+  createProcessPaymentUsingPOST(params: CommandResourceService.CreateProcessPaymentUsingPOSTParams): __Observable<CommandResource> {
+    return this.createProcessPaymentUsingPOSTResponse(params).pipe(
+      __map(_r => _r.body as CommandResource)
     );
   }
 
@@ -289,6 +561,70 @@ class CommandResourceService extends __BaseService {
 }
 
 module CommandResourceService {
+
+  /**
+   * Parameters for createAdditionalInformationRequestUsingPOST
+   */
+  export interface CreateAdditionalInformationRequestUsingPOSTParams {
+
+    /**
+     * taskId
+     */
+    taskId: string;
+
+    /**
+     * additionalInformationRequest
+     */
+    additionalInformationRequest: AdditionalInformationRequest;
+  }
+
+  /**
+   * Parameters for createCollectAdditionalDetailsUsingPOST
+   */
+  export interface CreateCollectAdditionalDetailsUsingPOSTParams {
+
+    /**
+     * taskId
+     */
+    taskId: string;
+
+    /**
+     * consultationDetails
+     */
+    consultationDetails: ConsultationDetails;
+  }
+
+  /**
+   * Parameters for createConfirmPaymentUsingPOST
+   */
+  export interface CreateConfirmPaymentUsingPOSTParams {
+
+    /**
+     * taskId
+     */
+    taskId: string;
+
+    /**
+     * paymentConfirmationRequest
+     */
+    paymentConfirmationRequest: PaymentConfirmationRequest;
+  }
+
+  /**
+   * Parameters for createProcessPaymentUsingPOST
+   */
+  export interface CreateProcessPaymentUsingPOSTParams {
+
+    /**
+     * taskId
+     */
+    taskId: string;
+
+    /**
+     * processPayment
+     */
+    processPayment: ProcessPayment;
+  }
 }
 
 export { CommandResourceService }

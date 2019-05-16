@@ -5,6 +5,7 @@ export interface WorkPlace {
   doctor?: Doctor;
   id?: number;
   location?: string;
+  locationName?: string;
   name?: string;
   sessionInfos?: Array<SessionInfo>;
 }

@@ -20,8 +20,9 @@ import { ReservedSlotDTO } from '../models/reserved-slot-dto';
   providedIn: 'root',
 })
 class QueryResourceService extends __BaseService {
-  static readonly getAllAddressLinesByPatientIdUsingGETPath = '/api/address-lines/{patientId}';
+  static readonly getAllAddressLinesByPatientIdUsingGETPath = '/api/address-linesByPatientId/{patientId}';
   static readonly findDoctorsUsingGETPath = '/api/doctor/{searchTerm}';
+  static readonly findDoctorByDoctorIdUsingGETPath = '/api/doctors/{doctorId}';
   static readonly facetSearchUsingGETPath = '/api/facetSearch/{specialization}/{rating}/{feeFrom}/{feeTo}';
   static readonly findAllDoctorsUsingGETPath = '/api/findAllDoctors';
   static readonly findAllQualificationUsingGETPath = '/api/findAllQualification';
@@ -48,7 +49,7 @@ class QueryResourceService extends __BaseService {
 
     let req = new HttpRequest<any>(
       'GET',
-      this.rootUrl + `/api/address-lines/${patientId}`,
+      this.rootUrl + `/api/address-linesByPatientId/${patientId}`,
       __body,
       {
         headers: __headers,
@@ -127,6 +128,42 @@ class QueryResourceService extends __BaseService {
   findDoctorsUsingGET(params: QueryResourceService.FindDoctorsUsingGETParams): __Observable<Array<Doctor>> {
     return this.findDoctorsUsingGETResponse(params).pipe(
       __map(_r => _r.body as Array<Doctor>)
+    );
+  }
+
+  /**
+   * @param doctorId doctorId
+   * @return OK
+   */
+  findDoctorByDoctorIdUsingGETResponse(doctorId: string): __Observable<__StrictHttpResponse<Doctor>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/doctors/${doctorId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Doctor>;
+      })
+    );
+  }
+  /**
+   * @param doctorId doctorId
+   * @return OK
+   */
+  findDoctorByDoctorIdUsingGET(doctorId: string): __Observable<Doctor> {
+    return this.findDoctorByDoctorIdUsingGETResponse(doctorId).pipe(
+      __map(_r => _r.body as Doctor)
     );
   }
 
@@ -464,12 +501,6 @@ class QueryResourceService extends __BaseService {
   /**
    * @param params The `QueryResourceService.CreateSlotUsingGETParams` containing the following parameters:
    *
-   * - `sort`: sort
-   *
-   * - `size`: size
-   *
-   * - `page`: page
-   *
    * - `doctorId`: doctorId
    *
    * - `date`: date
@@ -480,9 +511,6 @@ class QueryResourceService extends __BaseService {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    (params.sort || []).forEach(val => {if (val != null) __params = __params.append('sort', val.toString())});
-    if (params.size != null) __params = __params.set('size', params.size.toString());
-    if (params.page != null) __params = __params.set('page', params.page.toString());
 
 
     let req = new HttpRequest<any>(
@@ -504,12 +532,6 @@ class QueryResourceService extends __BaseService {
   }
   /**
    * @param params The `QueryResourceService.CreateSlotUsingGETParams` containing the following parameters:
-   *
-   * - `sort`: sort
-   *
-   * - `size`: size
-   *
-   * - `page`: page
    *
    * - `doctorId`: doctorId
    *
@@ -696,21 +718,6 @@ module QueryResourceService {
    * Parameters for createSlotUsingGET
    */
   export interface CreateSlotUsingGETParams {
-
-    /**
-     * sort
-     */
-    sort: Array<string>;
-
-    /**
-     * size
-     */
-    size: number;
-
-    /**
-     * page
-     */
-    page: number;
 
     /**
      * doctorId
