@@ -14,7 +14,7 @@ export class KeycloakService {
   ) {
     this.kcAdminClient = new KeycloakAdminClient();
     this.kcAdminClient.setConfig({
-      baseUrl: 'http://35.237.193.86:8080/auth'
+      baseUrl: 'http://35.196.86.249:8080/auth'
     });
     this.configureKeycloakAdmin();
   }
@@ -22,7 +22,7 @@ export class KeycloakService {
   configureKeycloakAdmin() {
     this.kcAdminClient.auth({
       username: 'admin',
-      password: 'admin',
+      password: 'karma123',
       grantType: 'password',
       clientId: 'admin-cli'
     });
