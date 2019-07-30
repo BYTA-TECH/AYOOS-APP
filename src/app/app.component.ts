@@ -1,23 +1,23 @@
 import { Component } from '@angular/core';
 
-import { Platform, NavController } from '@ionic/angular';
+import { Platform, NavController, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { OAuthService, JwksValidationHandler, AuthConfig, NullValidationHandler } from 'angular-oauth2-oidc';
 import { filter } from 'rxjs/operators';
 
 export const authConfig: AuthConfig = {
-  issuer: 'http://35.196.86.249:8080/auth/realms/graeshoppe',
+  issuer: 'http://35.196.86.249:8080/auth/realms/ayoos',
   redirectUri: window.location.origin,
   clientId: 'account',
   scope: 'openid profile email',
-  dummyClientSecret: '29a095bc-9ced-480b-a719-4e70ce7dcc49',
-  tokenEndpoint: 'http://35.196.86.249:8080/auth/realms/graeshoppe/protocol/openid-connect/token',
-  userinfoEndpoint: 'http://35.196.86.249:8080/auth/realms/graeshoppe/protocol/openid-connect/userinfo',
-  oidc:false,
-  requireHttps:false
+  dummyClientSecret: '622ccedd-b819-4512-8e43-ee9837088a48',
+  tokenEndpoint: 'http://35.196.86.249:8080/auth/realms/ayoos/protocol/openid-connect/token',
+  userinfoEndpoint: 'http://35.196.86.249:8080/auth/realms/ayoos/protocol/openid-connect/userinfo',
+  oidc: false,
+  requireHttps: false
 
-  
+
 };
 
 
@@ -71,22 +71,43 @@ export class AppComponent {
       title: 'About Us',
       url: '/about-us',
       icon: 'business'
+    },
+    {
+      title: 'Logout',
+      url: '/',
+      icon: 'log-out'
     }
 
   ];
 
+  logout() {
+    console.log('Logout clicked');
+    this.oauthService.logOut();
+    this.presentToastLogout();
+    this.navController.navigateRoot('/landing');
+  }
+
+  async presentToastLogout() {
+    const toast = await this.toastController.create({
+      message: 'You\'ve been successfully logout',
+      duration: 2000,
+      position: 'bottom',
+      cssClass: 'toast'
+    });
+    toast.present();
+  }
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private oauthService: OAuthService,
-    private navController: NavController
+    private navController: NavController,
+    private toastController: ToastController
   ) {
 
     this.initializeApp();
    this.configureWithNewConfigApi();
-   //this.configurePasswordFlow();
-   //this.configureAuth();
+
 
   }
 
@@ -96,7 +117,7 @@ export class AppComponent {
       this.splashScreen.hide();
     });
   }
-  
+
 
   private configureWithNewConfigApi() {
     this.oauthService.configure(authConfig);
@@ -179,8 +200,7 @@ export class AppComponent {
     // Using such a dummy secreat is as safe as using no secret.
     this.oauthService.dummyClientSecret = '29a095bc-9ced-480b-a719-4e70ce7dcc49';
   }
-  profile()
-  {
+  profile() {
      this.navController.navigateForward('profile');
   }
 }

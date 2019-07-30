@@ -7,11 +7,16 @@ import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-respo
 import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
-import { AddressLineDTO } from '../models/address-line-dto';
-import { Doctor } from '../models/doctor';
-import { Review } from '../models/review';
-import { Patient } from '../models/patient';
 import { ReservedSlotDTO } from '../models/reserved-slot-dto';
+import { AddressLineDTO } from '../models/address-line-dto';
+import { Appointment } from '../models/appointment';
+import { Doctor } from '../models/doctor';
+import { TestDate } from '../models/test-date';
+import { RatingReview } from '../models/rating-review';
+import { Review } from '../models/review';
+import { GoogleMedicalNews } from '../models/google-medical-news';
+import { WorkPlace } from '../models/work-place';
+import { Patient } from '../models/patient';
 
 /**
  * Query Resource
@@ -20,22 +25,74 @@ import { ReservedSlotDTO } from '../models/reserved-slot-dto';
   providedIn: 'root',
 })
 class QueryResourceService extends __BaseService {
+  static readonly findSlotsUsingGETPath = '/api/Dr-slots/{date}/{doctorId}';
   static readonly getAllAddressLinesByPatientIdUsingGETPath = '/api/address-linesByPatientId/{patientId}';
+  static readonly findAppointmentByTrackingIdUsingGETPath = '/api/appointments/findByTrackingId/{trackingId}';
   static readonly findDoctorsUsingGETPath = '/api/doctor/{searchTerm}';
   static readonly findDoctorByDoctorIdUsingGETPath = '/api/doctors/{doctorId}';
   static readonly facetSearchUsingGETPath = '/api/facetSearch/{specialization}/{rating}/{feeFrom}/{feeTo}';
+  static readonly findAllDatesUsingGETPath = '/api/findAllDates';
   static readonly findAllDoctorsUsingGETPath = '/api/findAllDoctors';
   static readonly findAllQualificationUsingGETPath = '/api/findAllQualification';
-  static readonly searchByLocationUsingGETPath = '/api/findByLocationWithin';
+  static readonly findRatingReviewByStoreidAndCustomerNameUsingGETPath = '/api/findRatingReview/{doctorId}';
   static readonly findReviewByDoctorIdUsingGETPath = '/api/findReviewByDoctorId/{doctorId}';
+  static readonly getMedicalNewsUsingGETPath = '/api/googleMedicalNews';
+  static readonly searchByNearestLocationUsingGETPath = '/api/location/findByNearestLocation/{latLon}/{kiloMeter}';
   static readonly findPatientUsingGETPath = '/api/patient/{patientCode}';
-  static readonly createSlotUsingGETPath = '/api/slot/{date}/{doctorId}';
+  static readonly test2UsingGETPath = '/api/test2/{date}/{doctorId}';
 
   constructor(
     config: __Configuration,
     http: HttpClient
   ) {
     super(config, http);
+  }
+
+  /**
+   * @param params The `QueryResourceService.FindSlotsUsingGETParams` containing the following parameters:
+   *
+   * - `doctorId`: doctorId
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  findSlotsUsingGETResponse(params: QueryResourceService.FindSlotsUsingGETParams): __Observable<__StrictHttpResponse<Array<ReservedSlotDTO>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/Dr-slots/${params.date}/${params.doctorId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<ReservedSlotDTO>>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.FindSlotsUsingGETParams` containing the following parameters:
+   *
+   * - `doctorId`: doctorId
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  findSlotsUsingGET(params: QueryResourceService.FindSlotsUsingGETParams): __Observable<Array<ReservedSlotDTO>> {
+    return this.findSlotsUsingGETResponse(params).pipe(
+      __map(_r => _r.body as Array<ReservedSlotDTO>)
+    );
   }
 
   /**
@@ -71,6 +128,42 @@ class QueryResourceService extends __BaseService {
   getAllAddressLinesByPatientIdUsingGET(patientId: number): __Observable<Array<AddressLineDTO>> {
     return this.getAllAddressLinesByPatientIdUsingGETResponse(patientId).pipe(
       __map(_r => _r.body as Array<AddressLineDTO>)
+    );
+  }
+
+  /**
+   * @param trackingId trackingId
+   * @return OK
+   */
+  findAppointmentByTrackingIdUsingGETResponse(trackingId: string): __Observable<__StrictHttpResponse<Appointment>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/appointments/findByTrackingId/${trackingId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Appointment>;
+      })
+    );
+  }
+  /**
+   * @param trackingId trackingId
+   * @return OK
+   */
+  findAppointmentByTrackingIdUsingGET(trackingId: string): __Observable<Appointment> {
+    return this.findAppointmentByTrackingIdUsingGETResponse(trackingId).pipe(
+      __map(_r => _r.body as Appointment)
     );
   }
 
@@ -240,6 +333,58 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
+   * @param params The `QueryResourceService.FindAllDatesUsingGETParams` containing the following parameters:
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  findAllDatesUsingGETResponse(params: QueryResourceService.FindAllDatesUsingGETParams): __Observable<__StrictHttpResponse<Array<TestDate>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    (params.sort || []).forEach(val => {if (val != null) __params = __params.append('sort', val.toString())});
+    if (params.size != null) __params = __params.set('size', params.size.toString());
+    if (params.page != null) __params = __params.set('page', params.page.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/findAllDates`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<TestDate>>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.FindAllDatesUsingGETParams` containing the following parameters:
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  findAllDatesUsingGET(params: QueryResourceService.FindAllDatesUsingGETParams): __Observable<Array<TestDate>> {
+    return this.findAllDatesUsingGETResponse(params).pipe(
+      __map(_r => _r.body as Array<TestDate>)
+    );
+  }
+
+  /**
    * @param params The `QueryResourceService.FindAllDoctorsUsingGETParams` containing the following parameters:
    *
    * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -344,11 +489,9 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
-   * @param params The `QueryResourceService.SearchByLocationUsingGETParams` containing the following parameters:
+   * @param params The `QueryResourceService.FindRatingReviewByStoreidAndCustomerNameUsingGETParams` containing the following parameters:
    *
-   * - `location`: location
-   *
-   * - `distance`: distance
+   * - `doctorId`: doctorId
    *
    * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    *
@@ -358,18 +501,17 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  searchByLocationUsingGETResponse(params: QueryResourceService.SearchByLocationUsingGETParams): __Observable<__StrictHttpResponse<Array<Doctor>>> {
+  findRatingReviewByStoreidAndCustomerNameUsingGETResponse(params: QueryResourceService.FindRatingReviewByStoreidAndCustomerNameUsingGETParams): __Observable<__StrictHttpResponse<Array<RatingReview>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    (params.location || []).forEach(val => {if (val != null) __params = __params.append('location', val.toString())});
-    if (params.distance != null) __params = __params.set('distance', params.distance.toString());
+
     (params.sort || []).forEach(val => {if (val != null) __params = __params.append('sort', val.toString())});
     if (params.size != null) __params = __params.set('size', params.size.toString());
     if (params.page != null) __params = __params.set('page', params.page.toString());
     let req = new HttpRequest<any>(
       'GET',
-      this.rootUrl + `/api/findByLocationWithin`,
+      this.rootUrl + `/api/findRatingReview/${params.doctorId}`,
       __body,
       {
         headers: __headers,
@@ -380,16 +522,14 @@ class QueryResourceService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<Array<Doctor>>;
+        return _r as __StrictHttpResponse<Array<RatingReview>>;
       })
     );
   }
   /**
-   * @param params The `QueryResourceService.SearchByLocationUsingGETParams` containing the following parameters:
+   * @param params The `QueryResourceService.FindRatingReviewByStoreidAndCustomerNameUsingGETParams` containing the following parameters:
    *
-   * - `location`: location
-   *
-   * - `distance`: distance
+   * - `doctorId`: doctorId
    *
    * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    *
@@ -399,9 +539,9 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  searchByLocationUsingGET(params: QueryResourceService.SearchByLocationUsingGETParams): __Observable<Array<Doctor>> {
-    return this.searchByLocationUsingGETResponse(params).pipe(
-      __map(_r => _r.body as Array<Doctor>)
+  findRatingReviewByStoreidAndCustomerNameUsingGET(params: QueryResourceService.FindRatingReviewByStoreidAndCustomerNameUsingGETParams): __Observable<Array<RatingReview>> {
+    return this.findRatingReviewByStoreidAndCustomerNameUsingGETResponse(params).pipe(
+      __map(_r => _r.body as Array<RatingReview>)
     );
   }
 
@@ -463,6 +603,86 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
+   * @return OK
+   */
+  getMedicalNewsUsingGETResponse(): __Observable<__StrictHttpResponse<GoogleMedicalNews>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/googleMedicalNews`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<GoogleMedicalNews>;
+      })
+    );
+  }
+  /**
+   * @return OK
+   */
+  getMedicalNewsUsingGET(): __Observable<GoogleMedicalNews> {
+    return this.getMedicalNewsUsingGETResponse().pipe(
+      __map(_r => _r.body as GoogleMedicalNews)
+    );
+  }
+
+  /**
+   * @param params The `QueryResourceService.SearchByNearestLocationUsingGETParams` containing the following parameters:
+   *
+   * - `latLon`: latLon
+   *
+   * - `kiloMeter`: kiloMeter
+   *
+   * @return OK
+   */
+  searchByNearestLocationUsingGETResponse(params: QueryResourceService.SearchByNearestLocationUsingGETParams): __Observable<__StrictHttpResponse<Array<WorkPlace>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/location/findByNearestLocation/${params.latLon}/${params.kiloMeter}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<WorkPlace>>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.SearchByNearestLocationUsingGETParams` containing the following parameters:
+   *
+   * - `latLon`: latLon
+   *
+   * - `kiloMeter`: kiloMeter
+   *
+   * @return OK
+   */
+  searchByNearestLocationUsingGET(params: QueryResourceService.SearchByNearestLocationUsingGETParams): __Observable<Array<WorkPlace>> {
+    return this.searchByNearestLocationUsingGETResponse(params).pipe(
+      __map(_r => _r.body as Array<WorkPlace>)
+    );
+  }
+
+  /**
    * @param patientCode patientCode
    * @return OK
    */
@@ -499,7 +719,7 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
-   * @param params The `QueryResourceService.CreateSlotUsingGETParams` containing the following parameters:
+   * @param params The `QueryResourceService.Test2UsingGETParams` containing the following parameters:
    *
    * - `doctorId`: doctorId
    *
@@ -507,7 +727,7 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  createSlotUsingGETResponse(params: QueryResourceService.CreateSlotUsingGETParams): __Observable<__StrictHttpResponse<Array<ReservedSlotDTO>>> {
+  test2UsingGETResponse(params: QueryResourceService.Test2UsingGETParams): __Observable<__StrictHttpResponse<Array<ReservedSlotDTO>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -515,7 +735,7 @@ class QueryResourceService extends __BaseService {
 
     let req = new HttpRequest<any>(
       'GET',
-      this.rootUrl + `/api/slot/${params.date}/${params.doctorId}`,
+      this.rootUrl + `/api/test2/${params.date}/${params.doctorId}`,
       __body,
       {
         headers: __headers,
@@ -531,7 +751,7 @@ class QueryResourceService extends __BaseService {
     );
   }
   /**
-   * @param params The `QueryResourceService.CreateSlotUsingGETParams` containing the following parameters:
+   * @param params The `QueryResourceService.Test2UsingGETParams` containing the following parameters:
    *
    * - `doctorId`: doctorId
    *
@@ -539,14 +759,30 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  createSlotUsingGET(params: QueryResourceService.CreateSlotUsingGETParams): __Observable<Array<ReservedSlotDTO>> {
-    return this.createSlotUsingGETResponse(params).pipe(
+  test2UsingGET(params: QueryResourceService.Test2UsingGETParams): __Observable<Array<ReservedSlotDTO>> {
+    return this.test2UsingGETResponse(params).pipe(
       __map(_r => _r.body as Array<ReservedSlotDTO>)
     );
   }
 }
 
 module QueryResourceService {
+
+  /**
+   * Parameters for findSlotsUsingGET
+   */
+  export interface FindSlotsUsingGETParams {
+
+    /**
+     * doctorId
+     */
+    doctorId: number;
+
+    /**
+     * date
+     */
+    date: string;
+  }
 
   /**
    * Parameters for findDoctorsUsingGET
@@ -616,6 +852,27 @@ module QueryResourceService {
   }
 
   /**
+   * Parameters for findAllDatesUsingGET
+   */
+  export interface FindAllDatesUsingGETParams {
+
+    /**
+     * Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+
+    /**
+     * Size of a page
+     */
+    size?: number;
+
+    /**
+     * Page number of the requested page
+     */
+    page?: number;
+  }
+
+  /**
    * Parameters for findAllDoctorsUsingGET
    */
   export interface FindAllDoctorsUsingGETParams {
@@ -658,19 +915,14 @@ module QueryResourceService {
   }
 
   /**
-   * Parameters for searchByLocationUsingGET
+   * Parameters for findRatingReviewByStoreidAndCustomerNameUsingGET
    */
-  export interface SearchByLocationUsingGETParams {
+  export interface FindRatingReviewByStoreidAndCustomerNameUsingGETParams {
 
     /**
-     * location
+     * doctorId
      */
-    location: Array<number>;
-
-    /**
-     * distance
-     */
-    distance: string;
+    doctorId: string;
 
     /**
      * Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -715,9 +967,25 @@ module QueryResourceService {
   }
 
   /**
-   * Parameters for createSlotUsingGET
+   * Parameters for searchByNearestLocationUsingGET
    */
-  export interface CreateSlotUsingGETParams {
+  export interface SearchByNearestLocationUsingGETParams {
+
+    /**
+     * latLon
+     */
+    latLon: string;
+
+    /**
+     * kiloMeter
+     */
+    kiloMeter: number;
+  }
+
+  /**
+   * Parameters for test2UsingGET
+   */
+  export interface Test2UsingGETParams {
 
     /**
      * doctorId

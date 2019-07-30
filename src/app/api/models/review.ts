@@ -6,4 +6,6 @@ export interface Review {
   id?: number;
   replies?: Array<Reply>;
   review?: string;
+  reviewedOn?: string;
+  userName?: string;
 }

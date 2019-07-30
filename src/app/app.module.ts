@@ -8,7 +8,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-//import { FilterModalComponent } from './filter-modal/filter-modal.component';
+// import { FilterModalComponent } from './filter-modal/filter-modal.component';
 import { AuthInterceptor } from './security/auth-interceptor';
 
 import { AppComponent } from './app.component';
@@ -35,8 +35,8 @@ import { KeycloakAdminClient } from 'keycloak-admin/lib/client';
     DoctorsListPageModule,
     PopoverAddMemberPageModule,
      AgmCoreModule.forRoot({
-         apiKey:'AIzaSyCQc2iiem96Es76TEOcPkcSvfHx5wpvs28',
-         libraries:['places','geometry']
+         apiKey: 'AIzaSyAwC9dPmp280b4C18RBcGWjInRi9NGxo5c',
+         libraries: ['places', 'geometry']
        }),
        MapViewDoctorsPageModule
   ],

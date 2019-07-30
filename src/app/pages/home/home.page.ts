@@ -1,35 +1,43 @@
 import { LocationService } from './../../services/location-service.service';
-import { DOCTORS } from './../../mock-doctors';
-import { Doctor } from './../../doctor';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PopoverController, ModalController } from '@ionic/angular';
+import { PopoverController, ModalController, IonSlides, NavController } from '@ionic/angular';
 import { PopoverComponent } from '../popover/popover.component';
 import { FullTextSearchPage } from '../full-text-search/full-text-search.page';
 import { MapsAPILoader } from '@agm/core';
+import { Doctor } from 'src/app/api/models';
+import { QueryResourceService } from 'src/app/api/services';
 
-declare var google:any;
+declare var google: any;
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit{
+export class HomePage implements OnInit {
 
-constructor(private popoverController: PopoverController,private modalController:ModalController,private locationService:LocationService,private mapsAPILoader:MapsAPILoader){
+constructor(private popoverController: PopoverController,
+  private modalController: ModalController,
+   private locationService: LocationService,
+   private mapsAPILoader: MapsAPILoader,
+   private queryService: QueryResourceService,
+   private navCtrl: NavController) {
 
 }
-
-  result: Observable<any>;
-  currentLocation:string;
-  searchTerm='';
-  selectedTab='All';
-  
+@ViewChild('slides') slides: IonSlides;
+result: Observable<any>;
+  currentLocation: string;
+  searchTerm = '';
+  selectedTab = 'All';
+  currentDate = new Date();
 
   topDoctors: Doctor[];
 
-  
+  sliderConfig = {
+    loop: true,
+    autoplay: true
+  };
 
   async presentFullTextSearch() {
     const modal = await this.modalController.create({
@@ -38,42 +46,40 @@ constructor(private popoverController: PopoverController,private modalController
     return await modal.present();
   }
 
-  // sliderConfig={
-  //   spaceBetween:2,
-  //   slidesPreview:1.6
-  // }
 
- 
-  // 
-  searchChanged(){
+  searchChanged() {
 
   }
 
-  
-
-  segmentDoctors(){
-    this.selectedTab="Doctors";
+  navigateToNotifications() {
+    this.navCtrl.navigateForward('notifications');
   }
 
-  segmentSpecializations(){
-    this.selectedTab="Qualification";
-  }
-  segmentClinics(){
-    this.selectedTab="clinics";
+  segmentDoctors() {
+    this.selectedTab = 'Doctors';
   }
 
+  segmentSpecializations() {
+    this.selectedTab = 'Qualification';
+  }
+  segmentClinics() {
+    this.selectedTab = 'clinics';
+  }
 
-  getTopDoctors(){
-  
-   this.topDoctors=DOCTORS;
+
+  getTopDoctors() {
+
+   this.queryService.findAllDoctorsUsingGET({}).subscribe(doctors => {
+     this.topDoctors = doctors;
+   });
 
   }
 
-  genArray(value:number):any[]{
-    value= Math.trunc(value);
+  genArray(value: number): any[] {
+    value = Math.trunc(value);
     return new Array(value);
   }
-  doRefresh(event:any) {
+  doRefresh(event: any) {
     console.log('Begin async operation');
 
     setTimeout(() => {
@@ -84,22 +90,23 @@ constructor(private popoverController: PopoverController,private modalController
   }
   getCurrentLocation() {
     this.mapsAPILoader.load().then(() => {
-      let geocoder = new google.maps.Geocoder;
-      console.log("Current lagt lon is "+this.locationService.currentLat);
-      let latlng = { lat: this.locationService.currentLat, lng: this.locationService.currentLon };
-      geocoder.geocode({ 'location': latlng },(results:any,status:any) =>{
-        this.currentLocation=results[0].formatted_address.split(',',1)[0];
+      const geocoder = new google.maps.Geocoder;
+      console.log('Current lagt lon is ' + this.locationService.currentLat);
+      const latlng = { lat: this.locationService.currentLat, lng: this.locationService.currentLon };
+      geocoder.geocode({ 'location': latlng }, (results: any, status: any) => {
+        this.currentLocation = results[0].formatted_address.split(',', 1)[0];
       });
     });
   }
-  ngOnInit(){
+  ngOnInit() {
+    this.slides.startAutoplay();
     this.locationService.getCurrentLocation();
     this.getTopDoctors();
-    this.getCurrentLocation()
+    this.getCurrentLocation();
     setTimeout(() => {
       console.log('Async Distance Currengt location ');
-      this.getCurrentLocation()
-    }, 2000)
+      this.getCurrentLocation();
+    }, 2000);
   }
 
 }

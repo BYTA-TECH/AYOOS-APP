@@ -1,54 +1,63 @@
+import { NavController } from '@ionic/angular';
+import { DataService } from 'src/app/services/data.service';
+import {
+  QueryResourceService,
+  CommandResourceService
+} from 'src/app/api/services';
 import { Slot } from './../../Slot';
-import { Doctor } from './../../doctor';
-import { DOCTORS } from './../../mock-doctors';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Appointment, Doctor } from 'src/app/api/models';
 
 @Component({
   selector: 'app-appointment-confirmation',
   templateUrl: './appointment-confirmation.page.html',
-  styleUrls: ['./appointment-confirmation.page.scss'],
+  styleUrls: ['./appointment-confirmation.page.scss']
 })
 export class AppointmentConfirmationPage implements OnInit {
+  slot: Slot;
+  doctor: Doctor;
+  appointment: Appointment;
+  currentDate = new Date();
+  paymentMethod: string;
 
-  slot:Slot;
-  symptoms:string[]=[];
-  selectedSymptoms:string[]=[];
-  selectedSymptom:string;
-  searchTerm:string;
-  searchResults:string[]=[];
-  previousDiagnostics:string[]=[];
-  doctor:Doctor;
-  constructor(private activatedRoute:ActivatedRoute) { }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private queryService: QueryResourceService,
+    private commandresourceService: CommandResourceService,
+    private dataService: DataService,
+    private navCtrl: NavController
+  ) {}
 
-  onSearch(ev:any){
-    this.searchResults=[];
-    this.symptoms.forEach(symptom=>
-      {
-        if(this.searchTerm.toUpperCase().includes(symptom.toUpperCase())){
-         this.searchResults.push(symptom);
-        }
-      })
+  proceedToPay() {
+    this.dataService.paymentMethod = this.paymentMethod;
+    this.commandresourceService.createConfirmPaymentUsingPOST({taskId: this.dataService.nextTaskId,
+       paymentConfirmationRequest: {paymentDecision: 'proceed'}}).subscribe(response => {
+         console.log('Next taskId is ***** ' + response.nextTaskId);
+         this.dataService.nextTaskId = response.nextTaskId;
+         this.navCtrl.navigateForward('process-payment');
+
+       });
   }
 
-  addSymptom(symptom:string){
-    this.selectedSymptoms.push(symptom);
-  }
-  removeSymptom(symptom:string){
-    let index=this.selectedSymptoms.indexOf(symptom);
-    this.selectedSymptoms.splice(index,1);
-  }
   ngOnInit() {
-    this.slot=new Slot();
-    this.slot.time=new Date();
-    this.symptoms=["cough","sneeze","head ache","stomach ache","fracture","float","fever","vomit","cold","disease","illness","thyroid","spine","cord"];
-    this.previousDiagnostics=["tumor","gyno","fever","cardiac","cancer","diabetic","sugar","cough"]
-    let id=this.activatedRoute.snapshot.paramMap.get('id');
-    DOCTORS.forEach(doctor=>{
-      if(doctor.id.toString()==id){
-        this.doctor=doctor;
-      }
-    })
-  }
+    console.log(' Task id is ******** ' + this.dataService.nextTaskId);
+    this.slot = new Slot();
+    this.slot.time = new Date();
+    const trackingId = this.activatedRoute.snapshot.paramMap.get('trackingId');
+    this.queryService
+      .findAppointmentByTrackingIdUsingGET(trackingId)
+      .subscribe(appointment => {
+        this.appointment = appointment;
+        this.dataService.appointment = appointment;
+        console.log('Timing are ' + appointment.timing.day);
+        console.log('Timing are ' + appointment.timing.startFrom);
 
+        this.queryService
+          .findDoctorByDoctorIdUsingGET(appointment.doctorId)
+          .subscribe(doctor => {
+            this.doctor = doctor;
+          });
+      });
+  }
 }

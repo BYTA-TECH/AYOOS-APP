@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { DoctorBookingPage } from './doctor-booking.page';
+import { RequestConfimationPopoverComponent } from 'src/app/components/request-confimation-popover/request-confimation-popover.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [DoctorBookingPage]
+  declarations: [DoctorBookingPage, RequestConfimationPopoverComponent],
+  entryComponents: [RequestConfimationPopoverComponent]
 })
 export class DoctorBookingPageModule {}

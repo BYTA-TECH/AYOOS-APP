@@ -17,7 +17,7 @@ import { UserDTO } from '../models/user-dto';
   providedIn: 'root',
 })
 class UserResourceService extends __BaseService {
-  static readonly searchUsingGETPath = '/api/_search/users/{query}';
+  static readonly searchUsingGET1Path = '/api/_search/users/{query}';
   static readonly getAllUsersUsingGETPath = '/api/users';
   static readonly getAuthoritiesUsingGETPath = '/api/users/authorities';
   static readonly getUserUsingGETPath = '/api/users/{login}';
@@ -33,7 +33,7 @@ class UserResourceService extends __BaseService {
    * @param query query
    * @return OK
    */
-  searchUsingGETResponse(query: string): __Observable<__StrictHttpResponse<Array<User>>> {
+  searchUsingGET1Response(query: string): __Observable<__StrictHttpResponse<Array<User>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -59,8 +59,8 @@ class UserResourceService extends __BaseService {
    * @param query query
    * @return OK
    */
-  searchUsingGET(query: string): __Observable<Array<User>> {
-    return this.searchUsingGETResponse(query).pipe(
+  searchUsingGET1(query: string): __Observable<Array<User>> {
+    return this.searchUsingGET1Response(query).pipe(
       __map(_r => _r.body as Array<User>)
     );
   }

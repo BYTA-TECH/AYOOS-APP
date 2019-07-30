@@ -11,7 +11,9 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: './pages/home/home.module#HomePageModule'
+    loadChildren: './pages/home/home.module#HomePageModule',
+    canActivate: [AuthGuardService]
+
   },
   {
     path: 'list',
@@ -136,7 +138,7 @@ const routes: Routes = [
 
   },
   {
-    path: 'appointment-confirmation/:id',
+    path: 'appointment-confirmation/:trackingId',
     loadChildren: './pages/appointment-confirmation/appointment-confirmation.module#AppointmentConfirmationPageModule',
     canActivate: [AuthGuardService]
 
@@ -145,6 +147,9 @@ const routes: Routes = [
   { path: 'landing', loadChildren: './pages/landing/landing.module#LandingPageModule' },
   { path: 'signup', loadChildren: './pages/signup/signup.module#SignupPageModule' },
   { path: 'qualifications-list', loadChildren: './pages/qualifications-list/qualifications-list.module#QualificationsListPageModule' },
+  { path: 'process-payment', loadChildren: './pages/process-payment/process-payment.module#ProcessPaymentPageModule' },
+  { path: 'additional-consultation-info',
+   loadChildren: './pages/additional-consultation-info/additional-consultation-info.module#AdditionalConsultationInfoPageModule' },
 ];
 
 @NgModule({

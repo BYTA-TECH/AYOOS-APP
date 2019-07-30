@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title><strong>About your appointment</strong></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-item *ngIf="selectedSymptoms" lines="none">
+      <ion-label color="primary">Symptoms</ion-label>
+    </ion-item>
+
+    <ion-row>
+      <ion-col *ngFor="let symptom of selectedSymptoms">
+        <ion-chip color="primary">{{symptom.symptomRef}}<ion-buttons (click)="removeSymptom(symptom)">
+            <ion-icon name="close"></ion-icon>
+          </ion-buttons>
+        </ion-chip>
+      </ion-col>
+    </ion-row>
+    <ion-item>
+      <ion-icon name="search" slot="start"></ion-icon>
+      <ion-input placeholder="search symptoms" [(ngModel)]="searchTerm" (ionChange)="onSearch($event)" clearInput>
+      </ion-input>
+    </ion-item>
+    <ion-list>
+      <ion-item (click)="addSymptom(symptom)" *ngFor="let symptom of
+        searchResults">
+        <ion-label slot="start">{{symptom}}</ion-label>
+        <ion-icon name="add" slot="end"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </ion-grid>
+  <ion-item lines="none">
+    <ion-label color="primary">Related Diagnostic</ion-label>
+    <ion-select>
+      <ion-select-option *ngFor="let diagnostic of previousDiagnostics">{{diagnostic}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-list lines="none">
+    <ion-item>
+      <ion-label color="primary" position="floating">Age</ion-label>
+      <ion-input type="number" max='120' [(ngModel)]="age"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" position="floating"> Height</ion-label>
+      <ion-input type="number" [(ngModel)]="height"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" position="floating">Weight</ion-label>
+      <ion-input type="number" [(ngModel)]="weight"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-textarea placeholder="Enter more information here..." [(ngModel)]="note"></ion-textarea>
+    </ion-item>
+  </ion-list>
+
+  <ion-row>
+    <ion-col>
+      <ion-button expand="block" (click)="collectAdditionalDetails('skip')">Skip</ion-button>
+    </ion-col>
+    <ion-col>
+      <ion-button expand="block" (click)="collectAdditionalDetails('continue')">Continue</ion-button>
+    </ion-col>
+
+  </ion-row>
+</ion-content>

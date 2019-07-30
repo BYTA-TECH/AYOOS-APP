@@ -2,7 +2,17 @@
   max-height: 25vh;
   overflow: hidden;
 }
-
+.larger{
+  font-size:30px; 
+}
+.badge{
+  position: absolute;
+  font-weight: bold;
+  top: -8px;
+  left: 42px;
+  font-size: 12px;
+  margin-left: 280px;
+}
 .border-style{
   border-radius: 10%;
 }

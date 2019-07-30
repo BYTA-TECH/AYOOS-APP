@@ -7,6 +7,7 @@ import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-respo
 import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
+import { PageOfTestDate } from '../models/page-of-test-date';
 import { AddressLineDTO } from '../models/address-line-dto';
 import { CommandResource } from '../models/command-resource';
 import { AdditionalInformationRequest } from '../models/additional-information-request';
@@ -14,9 +15,14 @@ import { ConsultationDetails } from '../models/consultation-details';
 import { PaymentConfirmationRequest } from '../models/payment-confirmation-request';
 import { AppointmentRequest } from '../models/appointment-request';
 import { ProcessPayment } from '../models/process-payment';
+import { AppointmentConfirmationRequest } from '../models/appointment-confirmation-request';
+import { PageOfDoctor } from '../models/page-of-doctor';
 import { PatientDTO } from '../models/patient-dto';
 import { Patient } from '../models/patient';
+import { OrderResponse } from '../models/order-response';
+import { OrderRequest } from '../models/order-request';
 import { UserRatingDTO } from '../models/user-rating-dto';
+import { RatingReview } from '../models/rating-review';
 import { ReviewDTO } from '../models/review-dto';
 
 /**
@@ -26,18 +32,23 @@ import { ReviewDTO } from '../models/review-dto';
   providedIn: 'root',
 })
 class CommandResourceService extends __BaseService {
+  static readonly searchUsingGETPath = '/api/_search';
   static readonly createAddressLineUsingPOSTPath = '/api/address-lines';
   static readonly updateAddressLineUsingPUTPath = '/api/address-lines';
   static readonly createAdditionalInformationRequestUsingPOSTPath = '/api/appointments/additionalInformationRequest/{taskId}';
-  static readonly createCollectAdditionalDetailsUsingPOSTPath = '/api/appointments/collectAdditionalDetails/{taskId}';
+  static readonly createCollectAdditionalDetailsUsingPOSTPath = '/api/appointments/collectAdditionalDetails/{taskId}/{trackingId}';
   static readonly createConfirmPaymentUsingPOSTPath = '/api/appointments/confirmPayment/{taskId}';
   static readonly createConfirmRegistrationUsingPOSTPath = '/api/appointments/confirmRegistration/{taskId}';
   static readonly createInitiateAppointmentUsingPOSTPath = '/api/appointments/initiateAppointment';
   static readonly createProcessPaymentUsingPOSTPath = '/api/appointments/processPayment/{taskId}';
+  static readonly sendAppointmentRequestUsingPOSTPath = '/api/appointments/sendAppointmentRequest/{taskId}';
+  static readonly doctorSearchUsingGETPath = '/api/doctorsearch';
   static readonly createPatientUsingPOSTPath = '/api/patients';
   static readonly updatePatientUsingPUTPath = '/api/patients';
   static readonly modelToDtoUsingPOSTPath = '/api/patients/modelToDto';
+  static readonly createOrderPaymentUsingPOSTPath = '/api/payment/createOrder';
   static readonly ratedoctorUsingPOSTPath = '/api/rating';
+  static readonly createRatingAndReviewUsingPOSTPath = '/api/rating-review';
   static readonly reviewdoctorUsingPOSTPath = '/api/review';
 
   constructor(
@@ -45,6 +56,39 @@ class CommandResourceService extends __BaseService {
     http: HttpClient
   ) {
     super(config, http);
+  }
+
+  /**
+   * @return OK
+   */
+  searchUsingGETResponse(): __Observable<__StrictHttpResponse<PageOfTestDate>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/_search`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PageOfTestDate>;
+      })
+    );
+  }
+  /**
+   * @return OK
+   */
+  searchUsingGET(): __Observable<PageOfTestDate> {
+    return this.searchUsingGETResponse().pipe(
+      __map(_r => _r.body as PageOfTestDate)
+    );
   }
 
   /**
@@ -169,6 +213,8 @@ class CommandResourceService extends __BaseService {
   /**
    * @param params The `CommandResourceService.CreateCollectAdditionalDetailsUsingPOSTParams` containing the following parameters:
    *
+   * - `trackingId`: trackingId
+   *
    * - `taskId`: taskId
    *
    * - `consultationDetails`: consultationDetails
@@ -180,10 +226,11 @@ class CommandResourceService extends __BaseService {
     let __headers = new HttpHeaders();
     let __body: any = null;
 
+
     __body = params.consultationDetails;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/api/appointments/collectAdditionalDetails/${params.taskId}`,
+      this.rootUrl + `/api/appointments/collectAdditionalDetails/${params.taskId}/${params.trackingId}`,
       __body,
       {
         headers: __headers,
@@ -200,6 +247,8 @@ class CommandResourceService extends __BaseService {
   }
   /**
    * @param params The `CommandResourceService.CreateCollectAdditionalDetailsUsingPOSTParams` containing the following parameters:
+   *
+   * - `trackingId`: trackingId
    *
    * - `taskId`: taskId
    *
@@ -380,6 +429,86 @@ class CommandResourceService extends __BaseService {
   }
 
   /**
+   * @param params The `CommandResourceService.SendAppointmentRequestUsingPOSTParams` containing the following parameters:
+   *
+   * - `taskId`: taskId
+   *
+   * - `appointmentConfirmationRequest`: appointmentConfirmationRequest
+   *
+   * @return OK
+   */
+  sendAppointmentRequestUsingPOSTResponse(params: CommandResourceService.SendAppointmentRequestUsingPOSTParams): __Observable<__StrictHttpResponse<CommandResource>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    __body = params.appointmentConfirmationRequest;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/appointments/sendAppointmentRequest/${params.taskId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<CommandResource>;
+      })
+    );
+  }
+  /**
+   * @param params The `CommandResourceService.SendAppointmentRequestUsingPOSTParams` containing the following parameters:
+   *
+   * - `taskId`: taskId
+   *
+   * - `appointmentConfirmationRequest`: appointmentConfirmationRequest
+   *
+   * @return OK
+   */
+  sendAppointmentRequestUsingPOST(params: CommandResourceService.SendAppointmentRequestUsingPOSTParams): __Observable<CommandResource> {
+    return this.sendAppointmentRequestUsingPOSTResponse(params).pipe(
+      __map(_r => _r.body as CommandResource)
+    );
+  }
+
+  /**
+   * @return OK
+   */
+  doctorSearchUsingGETResponse(): __Observable<__StrictHttpResponse<PageOfDoctor>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/doctorsearch`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PageOfDoctor>;
+      })
+    );
+  }
+  /**
+   * @return OK
+   */
+  doctorSearchUsingGET(): __Observable<PageOfDoctor> {
+    return this.doctorSearchUsingGETResponse().pipe(
+      __map(_r => _r.body as PageOfDoctor)
+    );
+  }
+
+  /**
    * @param patientDTO patientDTO
    * @return OK
    */
@@ -488,6 +617,42 @@ class CommandResourceService extends __BaseService {
   }
 
   /**
+   * @param orderRequest orderRequest
+   * @return OK
+   */
+  createOrderPaymentUsingPOSTResponse(orderRequest: OrderRequest): __Observable<__StrictHttpResponse<OrderResponse>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = orderRequest;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/payment/createOrder`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<OrderResponse>;
+      })
+    );
+  }
+  /**
+   * @param orderRequest orderRequest
+   * @return OK
+   */
+  createOrderPaymentUsingPOST(orderRequest: OrderRequest): __Observable<OrderResponse> {
+    return this.createOrderPaymentUsingPOSTResponse(orderRequest).pipe(
+      __map(_r => _r.body as OrderResponse)
+    );
+  }
+
+  /**
    * @param userRatingDTO userRatingDTO
    * @return OK
    */
@@ -520,6 +685,42 @@ class CommandResourceService extends __BaseService {
   ratedoctorUsingPOST(userRatingDTO: UserRatingDTO): __Observable<UserRatingDTO> {
     return this.ratedoctorUsingPOSTResponse(userRatingDTO).pipe(
       __map(_r => _r.body as UserRatingDTO)
+    );
+  }
+
+  /**
+   * @param ratingReview ratingReview
+   * @return OK
+   */
+  createRatingAndReviewUsingPOSTResponse(ratingReview: RatingReview): __Observable<__StrictHttpResponse<RatingReview>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = ratingReview;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/rating-review`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<RatingReview>;
+      })
+    );
+  }
+  /**
+   * @param ratingReview ratingReview
+   * @return OK
+   */
+  createRatingAndReviewUsingPOST(ratingReview: RatingReview): __Observable<RatingReview> {
+    return this.createRatingAndReviewUsingPOSTResponse(ratingReview).pipe(
+      __map(_r => _r.body as RatingReview)
     );
   }
 
@@ -584,6 +785,11 @@ module CommandResourceService {
   export interface CreateCollectAdditionalDetailsUsingPOSTParams {
 
     /**
+     * trackingId
+     */
+    trackingId: string;
+
+    /**
      * taskId
      */
     taskId: string;
@@ -624,6 +830,22 @@ module CommandResourceService {
      * processPayment
      */
     processPayment: ProcessPayment;
+  }
+
+  /**
+   * Parameters for sendAppointmentRequestUsingPOST
+   */
+  export interface SendAppointmentRequestUsingPOSTParams {
+
+    /**
+     * taskId
+     */
+    taskId: string;
+
+    /**
+     * appointmentConfirmationRequest
+     */
+    appointmentConfirmationRequest: AppointmentConfirmationRequest;
   }
 }
 

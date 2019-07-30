@@ -14,64 +14,58 @@
     <ion-label color="secondary"><strong>{{slot.time.getHours()}}:{{slot.time.getMinutes()}}</strong></ion-label>
   </div>
   <div class="position-fixed">
-    <ion-label><strong>{{doctor.name}}</strong> </ion-label><br><br>
-    <ion-label color="secondary">{{doctor.specialization}} -
-      {{doctor.yearsOfExperience}} Years Of
-      Exp</ion-label>
+    <ion-label><strong>{{doctor?.firstName}}</strong> </ion-label><br><br>
+    <ion-label color="secondary">{{doctor?.specialization}} -
+      {{currentDate.getFullYear()-doctor?.practiceSince?.split('-')[0]}} Years of Exp</ion-label>
   </div>
-  <ion-grid>
-    <ion-item *ngIf="selectedSymptoms" lines="none">
-      <ion-label color="primary">Symptoms</ion-label>
-    </ion-item>
-
-    <ion-row>
-      <ion-col *ngFor="let symptom of selectedSymptoms">
-        <ion-chip color="primary">{{symptom}}<ion-buttons
-            (click)="removeSymptom(symptom)"><ion-icon
-              name="close"></ion-icon></ion-buttons></ion-chip>
-      </ion-col>
-    </ion-row>
-    <ion-item>
-      <ion-icon name="search" slot="start"></ion-icon>
-      <ion-input placeholder="search symptoms" [(ngModel)]="searchTerm"
-        (ionChange)="onSearch($event)" clearInput></ion-input>
-    </ion-item>
-    <ion-list>
-      <ion-item (click)="addSymptom(symptom)" *ngFor="let symptom of
-        searchResults">
-        <ion-label slot="start">{{symptom}}</ion-label>
-        <ion-icon name="add" slot="end"></ion-icon>
-      </ion-item>
-    </ion-list>
-  </ion-grid>
   <ion-item lines="none">
-    <ion-label color="primary">Related Diagnostic</ion-label>
-    <ion-select>
-      <ion-select-option *ngFor="let diagnostic of previousDiagnostics">{{diagnostic}}</ion-select-option>
-    </ion-select>
-  </ion-item><br>
-  <!-- <ion-item>
-    <ion-textarea placeholder="Enter more information here..."></ion-textarea>
-  </ion-item> -->
-  <ion-label color="secondary"><strong>Payment Details</strong></ion-label><br>
+    <ion-label color="secondary"><strong>Payment Details</strong></ion-label><br>
+  </ion-item>
   <ion-list lines="none">
     <ion-item>
       <ion-label slot="start">Service Fee</ion-label>
-      <ion-label slot="end">{{doctor.amount}}</ion-label>
+      <ion-label slot="end">{{doctor?.paymentSettings?.amount}}</ion-label>
     </ion-item>
-    <ion-item>
-      <ion-label slot="start">GST @10%</ion-label>
-      <ion-label slot="end">10</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label slot="start">Internet Handling</ion-label>
-      <ion-label slot="end">10</ion-label>
-    </ion-item>
-    <ion-item >
-        <ion-label slot="start">Total</ion-label>
-        <ion-label slot="end">120</ion-label>
-      </ion-item>
   </ion-list>
-  <ion-button expand="block" padding text-center>Pay & Confirm</ion-button>
+  <ion-list lines="none">
+    <ion-radio-group [(ngModel)]="paymentMethod">
+      <ion-list-header>
+        <ion-label>Choose A Payment Method</ion-label>
+      </ion-list-header>
 
+      <ion-item>
+        <ion-label>Card</ion-label>
+        <ion-radio slot="start" value="card"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Netbanking</ion-label>
+        <ion-radio slot="start" value="netbanking"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Wallet Paytm/Citrus</ion-label>
+        <ion-radio slot="start" value="wallet"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>UPI PhonePe/Google Pay</ion-label>
+        <ion-radio slot="start" value="upi"></ion-radio>
+      </ion-item>
+
+      <ion-item *ngIf="doctor?.paymentSettings?.isPaymentEnabled==false" >
+        <ion-label>Pay On Consultation</ion-label>
+        <ion-radio slot="start" value="poc"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+  </ion-list>
+  <ion-row>
+    <ion-col>
+      <ion-button expand="block" [disabled]="paymentMethod==undefined" (click)="proceedToPay()">Continue</ion-button>
+    </ion-col>
+  </ion-row>
+  <!-- <ion-footer>
+    <app-footer></app-footer>
+  </ion-footer> -->
 </ion-content>
