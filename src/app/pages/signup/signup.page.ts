@@ -22,7 +22,7 @@ export class SignupPage implements OnInit {
     private oauthService: OAuthService) {
     this.kcAdminClient = new KeycloakAdminClient();
     this.kcAdminClient.setConfig({
-        baseUrl: 'http://35.196.86.249:8080/auth'
+        baseUrl: 'http://34.74.192.113:8888/auth'
 
      });
     this.configureKeycloakAdmin();
@@ -38,9 +38,10 @@ export class SignupPage implements OnInit {
   configureKeycloakAdmin() {
     this.kcAdminClient.auth({
       username: 'admin',
-      password: 'karma123',
+      password: 'admin999',
       grantType: 'password',
-      clientId: 'admin-cli'
+      clientId: 'admin-cli',
+      clientSecret: '7f8a027d-36dd-48fa-b09b-b26762029aa1'
 
 
 
@@ -53,7 +54,7 @@ export class SignupPage implements OnInit {
     ]);
 
     this.kcAdminClient.users.create({
-      realm: 'graeshoppe',
+      realm: 'ayoos',
       username: this.username,
       email: this.email,
       enabled: true,
